@@ -71,3 +71,6 @@ extracted/
 
 # Per-user configuration
 .python-version
+
+# abdoo-oot
+.env

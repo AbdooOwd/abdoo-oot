@@ -83,6 +83,12 @@ else
   $(error Unable to detect a suitable MIPS toolchain installed)
 endif
 
+ifneq (,$(wildcard .env))
+    include .env
+endif
+
+export N64_EMULATOR
+
 # Version-specific settings
 ifeq ($(VERSION),gc-us)
   DEBUG := 0
@@ -452,6 +458,9 @@ run: rom
 ifeq ($(N64_EMULATOR),)
 	$(error Emulator path not set. Set N64_EMULATOR in the Makefile or define it as an environment variable)
 endif
+	$(N64_EMULATOR) $(ROM)
+
+play:
 	$(N64_EMULATOR) $(ROM)
 
 patch:
