@@ -11,7 +11,7 @@ void ACTORFILLER_Destroy(Actor* thisx, PlayState* play);
 void ACTORFILLER_Update(Actor* thisx, PlayState* play);
 void ACTORFILLER_Draw(Actor* thisx, PlayState* play);
 
-const ActorProfile ACTORFILLER_Profile = {
+const ActorInit ACTORFILLER_InitVars = {
 	ACTOR_ACTORUPPER,
 	ACTORCAT_BG,
 	0,	// no flags

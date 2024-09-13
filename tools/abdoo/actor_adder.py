@@ -92,7 +92,7 @@ def addSpec(actor_name: str) -> None:
 			print(f" > Actor already exists in 'spec'!")
 			return
 		
-		if "/* TABLE FOR PYTHON */" in line:
+		if "/* ACTORS FOR PYTHON */" in line:
 			content.insert(i + 1,
 				"\nbeginseg\n"
     			f"\tname \"ovl_{actor_name}\"\n"

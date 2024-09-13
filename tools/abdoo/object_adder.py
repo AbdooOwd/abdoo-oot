@@ -54,8 +54,9 @@ def addSpec(object_name: str, dl_name: str) -> None:
 def main():
 	argc = len(sys.argv)
 
-	if argc < 2:
-		print(f"Not enough arguments! Usage: {sys.argv[0]} <object name> <object's DL")
+	if argc <= 0 or argc < 2:
+		print(f"Not enough arguments! Usage: {sys.argv[0]} <object name> <object's DL>")
+		quit(-1)
 	
 	addSpec(sys.argv[1], sys.argv[2])
 	addTable(sys.argv[1])

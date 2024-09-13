@@ -10,7 +10,7 @@ import sys
 entrance_table_path = "include/tables/entrance_table.h"
 scene_table_path = "include/tables/scene_table.h"
 spec_path = "spec"
-z_select_path = "src/overlays/gamestates/ovl_select/z_select.c"
+z_select_path = "src/overlays/gamestates/ovl_select/z_select.h"
 
 sScenesArray = "static SceneSelectEntry sScenes[] = {"	# hardcoded, used to detect where the array is
 
@@ -25,11 +25,11 @@ def addSpec(scene_name: str, scene_path: str, room_count: int) -> None:
 	# Add Scene
 	with open(spec_path, 'a') as file:
 		file.write(
-			   "beginseg\n"
+			 "\nbeginseg\n"
 			f"\tname \"{scene_name}_scene\"\n"
 			 "\tcompress\n"
 			 "\tromalign 0x1000\n"
-    		f"\tinclude \"$(BUILD_DIR)/assets/scenes/{scene_path}/{scene_name}/{scene_name}_scene.o\"\n"
+    		f"\tinclude \"$(BUILD_DIR)/assets/scenes/{scene_path.replace("mod_assets/scenes", "")}/{scene_name}/{scene_name}_scene.o\"\n"
     		 "\tnumber 2\n"
 			   "endseg\n"
 			)
@@ -38,11 +38,11 @@ def addSpec(scene_name: str, scene_path: str, room_count: int) -> None:
 	for i in range(room_count):
 		with open(spec_path, 'a') as file:
 			file.write(
-				   "beginseg\n"
+				 "\nbeginseg\n"
     			f"\tname \"{scene_name}_room_{i}\"\n"
     			 "\tcompress\n"
     			 "\tromalign 0x1000\n"
-    			f"\tinclude \"$(BUILD_DIR)/assets/scenes/{scene_path}/{scene_name}/{scene_name}_room_{i}.o\"\n"
+    			f"\tinclude \"$(BUILD_DIR)/assets/scenes/{scene_path.replace("mod_assets/scenes", "")}/{scene_name}/{scene_name}_room_{i}.o\"\n"
     			 "\tnumber 3\n"
 				   "endseg\n"
 				)
@@ -57,7 +57,7 @@ def addSceneSelection(scene_name: str) -> None:
 
 	for i, line in enumerate(content):
 		if sScenesArray in line:
-			content.insert(i + 1, "\t{ \" 0:" + scene_name.capitalize() + "\", MapSelect_LoadGame, ENTR_" + scene_name.upper() + "_0 },\n")
+			content.insert(i + 1, "\t{ \"" + scene_name.capitalize() + "\", MapSelect_LoadGame, ENTR_" + scene_name.upper() + "_0 },\n")
 			break
 	
 	with open(z_select_path, "w") as file:
