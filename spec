@@ -649,6 +649,7 @@ beginseg
     include_no_data "$(BUILD_DIR)/src/code/z_message.o"
     include_no_data "$(BUILD_DIR)/src/code/z_game_over.o"
     include "$(BUILD_DIR)/src/code/z_construct.o"
+    include "$(BUILD_DIR)/src/code/debug_util.o"
     include "$(BUILD_DIR)/data/audio_tables.rodata.o"
     include "$(BUILD_DIR)/data/rsp.rodata.o"
 #if !ENABLE_F3DEX3
@@ -4085,6 +4086,24 @@ beginseg
     include "$(BUILD_DIR)/src/overlays/actors/ovl_Shot_Sun/ovl_Shot_Sun_reloc.o"
 endseg
 
+/* ACTORS FOR PYTHON */
+
+beginseg
+	name "ovl_Nul_Box"
+	compress
+	include "$(BUILD_DIR)/src/overlays/actors/ovl_Nul_Box/z_nul_box.o"
+	include "$(BUILD_DIR)/src/overlays/actors/ovl_Nul_Box/ovl_Nul_Box_reloc.o"
+endseg
+
+
+
+beginseg
+    name "ovl_Low_Table"
+    compress
+    include "$(BUILD_DIR)/src/overlays/actors/ovl_Low_Table/z_low_table.o"
+    include "$(BUILD_DIR)/src/overlays/actors/ovl_Low_Table/ovl_Low_Table_reloc.o"
+endseg
+
 beginseg
     name "gameplay_keep"
     compress
@@ -7137,6 +7156,25 @@ beginseg
     compress
     romalign 0x1000
     include "$(BUILD_DIR)/assets/objects/object_zl4/object_zl4.o"
+    number 6
+endseg
+
+/* OBJECT FOR PYTHON */
+
+beginseg
+    name "object_nul_box"
+    compress
+    romalign 0x1000
+    include "$(BUILD_DIR)/assets/objects/object_nul_box/gNulBoxDL.o"
+    number 6
+endseg
+
+beginseg
+    name "object_low_table"
+    compress
+    romalign 0x1000
+    include "$(BUILD_DIR)/assets/objects/object_low_table/gLowTableDL.o"
+    include "$(BUILD_DIR)/assets/objects/object_low_table/gLowTableDL_collision.o"
     number 6
 endseg
 
@@ -12238,3 +12276,18 @@ beginseg
     number 3
 endseg
 #endif
+
+beginseg
+	name "playground_scene"
+	compress
+	romalign 0x1000
+	include "$(BUILD_DIR)/assets/scenes/playground/playground_scene.o"
+	number 2
+endseg
+beginseg
+	name "playground_room_0"
+	compress
+	romalign 0x1000
+	include "$(BUILD_DIR)/assets/scenes/playground/playground_room_0.o"
+	number 3
+endseg
