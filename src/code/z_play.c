@@ -1089,6 +1089,8 @@ skip:
         gSaveContext.cutsceneTrigger = 1;
     }
 #endif
+
+    Debug_Print_Draw(this->state.gfxCtx);
 }
 
 void Play_DrawOverlayElements(PlayState* this) {
