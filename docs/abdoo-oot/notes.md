@@ -16,6 +16,8 @@
 	than `0x300`. And the sign-post's params must be the text ID that you want to display
 	decreased by `0x300`.
 	For example, if I want to display my message with text ID of `0x0302`, I must attach
-	`0x0002` to the sign's params.
+	`0x0002` to the sign's params. *(**NOTE:** `0x0000` is the `X` message)*.
 
--	In HackerOoT, open map select by pressing [L] + [R] + [Z] ***(IN ORDER!!!)***.
+-	In HackerOoT, open map select by pressing [L] + [R] + [Z] ***(IN ORDER!!!)***
+
+-	Sometimes, when adding textures, you must remove them from `extracted/` first.

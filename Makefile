@@ -388,8 +388,7 @@ all: rom
 rom:
 	$(call print,Building the rom...)
 	$(V)python3 tools/mod_assets.py --oot-version $(VERSION)
-# copies png files to extracted so ZAPD is happy
-#	$(V)cp -t extracted
+	$(V)make fok_hackeroot
 	$(V)$(MAKE) $(ROM)
 
 compress:
@@ -501,6 +500,11 @@ verify:
 	$(V)$(MAKE) rom
 	@md5sum $(ROM)
 
+# hardcoded
+fok_hackeroot:
+	$(call print,Copying:,$(MOD_ASSETS_DIR)/text/message_data.h,assets/text/message_data.h)
+	$(V)cp $(MOD_ASSETS_DIR)/text/message_data.h assets/text/
+
 .PHONY: all rom compress clean assetclean distclean venv setup run wad iso patch create_f3dex3_patches verify
 
 .DEFAULT_GOAL := rom
@@ -571,10 +575,13 @@ $(BUILD_DIR)/assets/text/%.enc.nes.h: assets/text/%.h $(EXTRACTED_DIR)/text/%.h 
 	$(call print,Encoding:,$<,$@)
 	$(V)$(CPP) $(CPPFLAGS) -I$(EXTRACTED_DIR) $< | $(PYTHON) tools/msgenc.py --encoding nes --charmap assets/text/charmap.txt - $@
 
+get_message_data: assets/text/message_data.h
+	cp assets/text/message_data.h $(EXTRACTED_DIR)/text/message_data.h
+
 # Dependencies for files including message data headers
 # TODO remove when full header dependencies are used.
 $(BUILD_DIR)/assets/text/jpn_message_data_static.o: $(BUILD_DIR)/assets/text/message_data.enc.jpn.h
-$(BUILD_DIR)/assets/text/nes_message_data_static.o: $(BUILD_DIR)/assets/text/message_data.enc.nes.h
+$(BUILD_DIR)/assets/text/nes_message_data_static.o: get_message_data $(BUILD_DIR)/assets/text/message_data.enc.nes.h
 $(BUILD_DIR)/assets/text/ger_message_data_static.o: $(BUILD_DIR)/assets/text/message_data.enc.nes.h
 $(BUILD_DIR)/assets/text/fra_message_data_static.o: $(BUILD_DIR)/assets/text/message_data.enc.nes.h
 $(BUILD_DIR)/assets/text/staff_message_data_static.o: $(BUILD_DIR)/assets/text/message_data_staff.enc.nes.h

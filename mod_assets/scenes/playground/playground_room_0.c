@@ -4,7 +4,8 @@
 /**
  * Header Child Day (Default)
 */
-#define LENGTH_PLAYGROUND_ROOM_0_HEADER00_OBJECTLIST 1
+#define LENGTH_PLAYGROUND_ROOM_0_HEADER00_OBJECTLIST 2
+#define LENGTH_PLAYGROUND_ROOM_0_HEADER00_ACTORLIST 1
 SceneCmd playground_room_0_header00[] = {
     SCENE_CMD_ROOM_SHAPE(&playground_room_0_shapeHeader),
     SCENE_CMD_ECHO_SETTINGS(0x00),
@@ -12,11 +13,23 @@ SceneCmd playground_room_0_header00[] = {
     SCENE_CMD_SKYBOX_DISABLES(false, false),
     SCENE_CMD_TIME_SETTINGS(255, 255, 10),
     SCENE_CMD_OBJECT_LIST(LENGTH_PLAYGROUND_ROOM_0_HEADER00_OBJECTLIST, playground_room_0_header00_objectList),
+    SCENE_CMD_ACTOR_LIST(LENGTH_PLAYGROUND_ROOM_0_HEADER00_ACTORLIST, playground_room_0_header00_actorList),
     SCENE_CMD_END(),
 };
 
 s16 playground_room_0_header00_objectList[LENGTH_PLAYGROUND_ROOM_0_HEADER00_OBJECTLIST] = {
     OBJECT_NUL_BOX,
+    OBJECT_KANBAN,
+};
+
+ActorEntry playground_room_0_header00_actorList[LENGTH_PLAYGROUND_ROOM_0_HEADER00_ACTORLIST] = {
+    // Square Signpost
+    {
+        /* Actor ID   */ ACTOR_EN_KANBAN,
+        /* Position   */ { 170, -120, 0 },
+        /* Rotation   */ { DEG_TO_BINANG(0.000), DEG_TO_BINANG(0.000), DEG_TO_BINANG(0.000) },
+        /* Parameters */ 0x0001
+    },
 };
 
 RoomShapeNormal playground_room_0_shapeHeader = {

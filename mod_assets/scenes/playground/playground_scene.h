@@ -19,6 +19,7 @@ extern Vec3s playground_scene_vertices[23];
 extern CollisionPoly playground_scene_polygons[30];
 extern SceneCmd playground_room_0_header00[];
 extern s16 playground_room_0_header00_objectList[];
+extern ActorEntry playground_room_0_header00_actorList[];
 extern Gfx playground_room_0_shapeHeader_entry_0_opaque[];
 extern u64 playground_room_0_dl_grassGround_tex_ci8[];
 extern u64 playground_room_0_dl_grassGround_tex_pal_rgba16[];
