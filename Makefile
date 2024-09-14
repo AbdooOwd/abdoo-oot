@@ -121,6 +121,8 @@ BASEROM_DIR := baseroms/$(VERSION)
 EXTRACTED_DIR := extracted/$(VERSION)
 VENV := .venv
 
+MOD_ASSETS_DIR := mod_assets
+
 MAKE = make
 CPPFLAGS += -P -xc -fno-dollars-in-identifiers
 
@@ -198,6 +200,10 @@ PRINT := printf
 define print
   $(V)echo -e "$(GREEN)$(1) $(YELLOW)$(2)$(GREEN) -> $(BLUE)$(3)$(NO_COL)"
 endef
+
+# usage: 1: dir to scan, 2: *.FILE-EXTENSION
+# example: C_SOURCES=$(call rwildcard,$(SRC_DIR)/,*.c)
+rwildcard = $(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))
 
 #### Tools ####
 ifneq ($(shell type $(MIPS_BINUTILS_PREFIX)ld >/dev/null 2>/dev/null; echo $$?), 0)
@@ -382,6 +388,8 @@ all: rom
 rom:
 	$(call print,Building the rom...)
 	$(V)python3 tools/mod_assets.py --oot-version $(VERSION)
+# copies png files to extracted so ZAPD is happy
+#	$(V)cp -t extracted
 	$(V)$(MAKE) $(ROM)
 
 compress:
@@ -633,6 +641,10 @@ $(BUILD_DIR)/src/overlays/%_reloc.o: $(BUILD_DIR)/$(SPEC)
 	$(call print,Generating Relocation:,$<,$@)
 	$(V)$(FADO) $$(tools/reloc_prereq $< $(notdir $*)) -n $(notdir $*) -o $(@:.o=.s) -M $(@:.o=.d)
 	$(V)$(AS) $(ASFLAGS) $(@:.o=.s) -o $@
+
+
+$(BUILD_DIR)/assets/%.inc.c: $(MOD_ASSETS_DIR)/%.png
+	$(V)$(ZAPD) btex -tt $(subst .,,$(suffix $*)) -i $< -o $@
 
 $(BUILD_DIR)/assets/%.inc.c: $(EXTRACTED_DIR)/assets/%.png
 	$(V)$(ZAPD) btex -eh -tt $(subst .,,$(suffix $*)) -i $< -o $@
