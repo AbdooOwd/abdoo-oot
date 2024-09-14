@@ -14,11 +14,15 @@ DEFINE_MESSAGE(0x0301, TEXTBOX_TYPE_WOODEN, TEXTBOX_POS_BOTTOM,
 MSG("japanese")
 ,
 MSG(
-	"Welcome, to team fortress!\n"
-	"Have a look around."
+	COLOR(YELLOW)
+	"Hey! It's the dev, " COLOR(DEFAULT) "AbdooOwd" COLOR(YELLOW) "."
 	BOX_BREAK
-	"Anything the internet has\n"
-	"shown you can be found."
+	COLOR(YELLOW)
+	"Thanks for playing the mod!\n"
+	"I had this idea for some time.\n"
+	BOX_BREAK
+	COLOR(YELLOW)
+	"Enjoy!"
 )
 ,
 MSG("german")
