@@ -4089,6 +4089,14 @@ endseg
 /* ACTORS FOR PYTHON */
 
 beginseg
+	name "ovl_the_dev"
+	compress
+	include "$(BUILD_DIR)/src/overlays/actors/ovl_the_dev/z_the_dev.o"
+	include "$(BUILD_DIR)/src/overlays/actors/ovl_the_dev/ovl_the_dev_reloc.o"
+endseg
+
+
+beginseg
 	name "ovl_Nul_Box"
 	compress
 	include "$(BUILD_DIR)/src/overlays/actors/ovl_Nul_Box/z_nul_box.o"
@@ -7160,6 +7168,15 @@ beginseg
 endseg
 
 /* OBJECT FOR PYTHON */
+
+beginseg
+	name "object_trololo"
+	compress
+	romalign 0x1000
+	include "$(BUILD_DIR)/assets/objects/object_trololo/gTrololoDL.o"
+	number 6
+endseg
+
 
 beginseg
     name "object_nul_box"
