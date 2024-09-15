@@ -31,9 +31,10 @@ def addSpec(object_name: str, dl_name: str) -> None:
 		content = file.readlines()
 	
 	for i, line in enumerate(content):
-		if f"name \"object_{object_name.lower()}\"" in line:
-			print(" > Object already in Spec!")
-			return
+		# TODO: FIX THIS
+		# if f"name \"object_{object_name.lower()}\"" in line:
+		# 	print(" > Object already in Spec!")
+		# 	return
 
 		if "/* OBJECT FOR PYTHON */" in line:
 			content.insert(i + 1,
