@@ -21,3 +21,19 @@
 -	In HackerOoT, open map select by pressing [L] + [R] + [Z] ***(IN ORDER!!!)***
 
 -	Sometimes, when adding textures, you must remove them from `extracted/` first.
+
+-	To make something float:
+	```py
+	import math
+
+	time = 0
+	amplitude = 30  # The maximum distance the object moves up and down
+	speed = 0.05  # How fast the object floats
+
+	def update():
+	    # Calculate the new y position using the sine wave
+	    obj.y = amplitude * math.sin(time)
+	
+	    # Increment time to animate the floating
+	    time += speed
+	```
