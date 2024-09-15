@@ -123,6 +123,10 @@ VENV := .venv
 
 MOD_ASSETS_DIR := mod_assets
 
+# abdoo-oot defines
+# use breath of the wild's ui font
+CPP_DEFINES += -DUSE_RODIN_FONT
+
 MAKE = make
 CPPFLAGS += -P -xc -fno-dollars-in-identifiers
 
