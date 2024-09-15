@@ -9,7 +9,7 @@ static ProfilerState ProfilerState3;
 ProfilerState* activeProfilerState = NULL;
 ProfilerState* lastProfilerState = NULL;
 ProfilerState* drawProfilerState = NULL;
-u8 gProfilerMode = PROFILER_MODE_VIRTUAL_FPS;
+u8 gProfilerMode = PROFILER_MODE_REAL_FPS;
 
 void Profiler_RecordEventWithTime(u8 type, OSTime time) {
     u32 prevInt = __osDisableInt();
