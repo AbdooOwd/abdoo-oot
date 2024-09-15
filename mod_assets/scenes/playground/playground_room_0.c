@@ -4,8 +4,8 @@
 /**
  * Header Child Day (Default)
 */
-#define LENGTH_PLAYGROUND_ROOM_0_HEADER00_OBJECTLIST 2
-#define LENGTH_PLAYGROUND_ROOM_0_HEADER00_ACTORLIST 1
+#define LENGTH_PLAYGROUND_ROOM_0_HEADER00_OBJECTLIST 3
+#define LENGTH_PLAYGROUND_ROOM_0_HEADER00_ACTORLIST 2
 SceneCmd playground_room_0_header00[] = {
     SCENE_CMD_ROOM_SHAPE(&playground_room_0_shapeHeader),
     SCENE_CMD_ECHO_SETTINGS(0x00),
@@ -19,6 +19,7 @@ SceneCmd playground_room_0_header00[] = {
 
 s16 playground_room_0_header00_objectList[LENGTH_PLAYGROUND_ROOM_0_HEADER00_OBJECTLIST] = {
     OBJECT_NUL_BOX,
+    OBJECT_TROLOLO,
     OBJECT_KANBAN,
 };
 
@@ -26,9 +27,17 @@ ActorEntry playground_room_0_header00_actorList[LENGTH_PLAYGROUND_ROOM_0_HEADER0
     // Square Signpost
     {
         /* Actor ID   */ ACTOR_EN_KANBAN,
-        /* Position   */ { 170, -120, 0 },
-        /* Rotation   */ { DEG_TO_BINANG(0.000), DEG_TO_BINANG(0.000), DEG_TO_BINANG(0.000) },
+        /* Position   */ { 70, -80, 270 },
+        /* Rotation   */ { DEG_TO_BINANG(0.000), DEG_TO_BINANG(180.000), DEG_TO_BINANG(0.000) },
         /* Parameters */ 0x0001
+    },
+
+    // Custom Actor
+    {
+        /* Actor ID   */ ACTOR_THE_DEV,
+        /* Position   */ { 250, -100, 190 },
+        /* Rotation   */ { DEG_TO_BINANG(0.000), DEG_TO_BINANG(0.000), DEG_TO_BINANG(0.000) },
+        /* Parameters */ 0x0000
     },
 };
 
@@ -44,12 +53,12 @@ RoomShapeDListsEntry playground_room_0_shapeDListsEntry[1] = {
 };
 
 Gfx playground_room_0_shapeHeader_entry_0_opaque[] = {
-	gsSPDisplayList(playground_room_0_dl_Floor_mesh_layer_Opaque),
+	gsSPDisplayList(playground_room_0_dl_ground_mesh_layer_Opaque),
 	gsSPDisplayList(playground_room_0_dl_wall_0_mesh_layer_Opaque),
 	gsSPEndDisplayList(),
 };
 
-u64 playground_room_0_dl_grassGround_tex_ci8[] = {
+u64 playground_room_0_dl_grassGround_tex_rgba16_ci8[] = {
 	0x0001020304050607, 0x0809030a0b0c060d, 0x030e0f1011020f01, 0x120e081308031415, 0x000116120717060e, 0x0701091819120706, 0x1a0c011201071b18, 0x0101170008061c1d, 
 	0x1e0000011b160e0e, 0x0c1a0f1a121f0e09, 0x0101011b1b082004, 0x1b050103011b0621, 0x0000221708161a12, 0x0323240c0c04120f, 0x120e0c12040e2507, 0x201b010e03182627, 
 	0x0c0c240c1a0f1c0f, 0x0f1a012816192925, 0x2a001b062b12011b, 0x01010e0f270e0412, 0x0f2c0312111c1a03, 0x100c121901161c0f, 0x2a2d1b120d051b04, 0x2e2f0d280f010520, 
@@ -69,13 +78,13 @@ u64 playground_room_0_dl_grassGround_tex_ci8[] = {
 	
 };
 
-u64 playground_room_0_dl_grassGround_tex_pal_rgba16[] = {
+u64 playground_room_0_dl_grassGround_tex_rgba16_pal_rgba16[] = {
 	0x851563cf29c5538d, 0x6c518d577c937451, 0x7cd55bcd640f3247, 0x4b0b84d55b8d3a87, 0x3a4732056c118557, 0x11031943534b7cd3, 0x74535bcf42c97493, 0x218510c195576c53, 
 	0x7491218385174b4b, 0x534d4ac97c954289, 0x5b8f2a056c0f8d17, 0x4acb9dd7959795d7, 0x638d42871903430b, 0x42c74b0963cd21c5, 0x32457c91641195d5, 0x19833ac98d153a89, 
 	0x42cb6c938d973a45, 0x3ac79e178d5584d3, 0x430974d36bcf0000
 };
 
-u64 playground_room_0_dl_stoneBorder_tex_ci4[] = {
+u64 playground_room_0_dl_stoneBorder_tex_ci4_ci4[] = {
 	0x0000000000000000, 0x0000000000000000, 0x0000000000000000, 0x0000000000000000, 0x0000000000000000, 0x0012313300000000, 0x0000000000000000, 0x0000000000000000, 
 	0x0000000000000000, 0x3222223330000000, 0x0000000000000000, 0x0000000024100000, 0x4440000000325256, 0x3117222528500033, 0x3133000000002222, 0x2220002231220222, 
 	0x14122002525995a5, 0x8614433369b99336, 0x6553100000222224, 0x44122229333b6532, 0x5555235bb39bbcb9, 0x961443336b955955, 0x5395225222584111, 0x143a535ba6aab663, 
@@ -111,108 +120,147 @@ u64 playground_room_0_dl_stoneBorder_tex_ci4[] = {
 	
 };
 
-u64 playground_room_0_dl_stoneBorder_tex_pal_rgba16[] = {
+u64 playground_room_0_dl_stoneBorder_tex_ci4_pal_rgba16[] = {
 	0xdef2c62db65d9cdf, 0xdef395d39499ffff, 0x8415739339c962cf, 0x4a4d5a8f29473189, 
 };
 
-Vtx playground_room_0_dl_Floor_mesh_layer_Opaque_vtx_cull[8] = {
+Vtx playground_room_0_dl_ground_mesh_layer_Opaque_vtx_cull[8] = {
 	{{ {-300, -170, 300}, 0, {0, 0}, {0, 0, 0, 0} }},
 	{{ {-300, -80, 300}, 0, {0, 0}, {0, 0, 0, 0} }},
-	{{ {-300, -80, -300}, 0, {0, 0}, {0, 0, 0, 0} }},
-	{{ {-300, -170, -300}, 0, {0, 0}, {0, 0, 0, 0} }},
+	{{ {-300, -80, -620}, 0, {0, 0}, {0, 0, 0, 0} }},
+	{{ {-300, -170, -620}, 0, {0, 0}, {0, 0, 0, 0} }},
 	{{ {300, -170, 300}, 0, {0, 0}, {0, 0, 0, 0} }},
 	{{ {300, -80, 300}, 0, {0, 0}, {0, 0, 0, 0} }},
-	{{ {300, -80, -300}, 0, {0, 0}, {0, 0, 0, 0} }},
-	{{ {300, -170, -300}, 0, {0, 0}, {0, 0, 0, 0} }},
+	{{ {300, -80, -620}, 0, {0, 0}, {0, 0, 0, 0} }},
+	{{ {300, -170, -620}, 0, {0, 0}, {0, 0, 0, 0} }},
 };
 
-Vtx playground_room_0_dl_Floor_mesh_layer_Opaque_vtx_0[32] = {
-	{{ {-300, -120, -58}, 0, {1877, 770}, {0, 127, 0, 255} }},
-	{{ {-300, -120, 300}, 0, {1894, -862}, {0, 127, 0, 255} }},
-	{{ {-71, -120, 300}, 0, {851, -872}, {0, 127, 0, 255} }},
-	{{ {38, -120, 123}, 0, {318, -73}, {0, 127, 0, 255} }},
-	{{ {9, -120, -131}, 0, {472, 1112}, {0, 127, 0, 255} }},
-	{{ {300, -120, 300}, 0, {-910, -843}, {0, 127, 0, 255} }},
-	{{ {227, -120, 300}, 0, {-579, -852}, {0, 127, 0, 255} }},
-	{{ {133, -120, 211}, 0, {-137, -460}, {0, 127, 0, 255} }},
-	{{ {300, -120, -300}, 0, {-843, 1908}, {0, 127, 0, 255} }},
-	{{ {140, -120, -300}, 0, {-118, 1895}, {0, 127, 0, 255} }},
-	{{ {-300, -170, -188}, 0, {1891, 1399}, {237, 121, 221, 255} }},
-	{{ {-300, -120, -58}, 0, {1877, 770}, {237, 121, 221, 255} }},
-	{{ {9, -120, -131}, 0, {472, 1112}, {237, 121, 221, 255} }},
-	{{ {-159, -170, -203}, 0, {1260, 1473}, {237, 121, 221, 255} }},
-	{{ {-83, -170, -300}, 0, {914, 1909}, {237, 121, 221, 255} }},
-	{{ {140, -120, -300}, 0, {-118, 1895}, {237, 121, 221, 255} }},
-	{{ {-300, -170, -188}, 0, {1891, 1399}, {0, 127, 0, 255} }},
-	{{ {-159, -170, -203}, 0, {1260, 1473}, {0, 127, 0, 255} }},
-	{{ {-83, -170, -300}, 0, {914, 1909}, {0, 127, 0, 255} }},
-	{{ {-300, -170, -300}, 0, {1894, 1907}, {0, 127, 0, 255} }},
-	{{ {166, -80, 300}, 0, {-250, -917}, {1, 115, 202, 255} }},
-	{{ {227, -120, 300}, 0, {-579, -852}, {1, 115, 202, 255} }},
-	{{ {133, -120, 211}, 0, {-137, -460}, {1, 115, 202, 255} }},
-	{{ {38, -120, 123}, 0, {318, -73}, {1, 115, 202, 255} }},
-	{{ {127, -80, 241}, 0, {-67, -669}, {1, 115, 202, 255} }},
-	{{ {50, -87, 221}, 0, {259, -551}, {1, 115, 202, 255} }},
-	{{ {14, -80, 300}, 0, {429, -913}, {1, 115, 202, 255} }},
-	{{ {-71, -120, 300}, 0, {851, -872}, {1, 115, 202, 255} }},
-	{{ {166, -80, 300}, 0, {-250, -917}, {253, 127, 249, 255} }},
-	{{ {127, -80, 241}, 0, {-67, -669}, {253, 127, 249, 255} }},
-	{{ {50, -87, 221}, 0, {259, -551}, {253, 127, 249, 255} }},
-	{{ {14, -80, 300}, 0, {429, -913}, {253, 127, 249, 255} }},
+Vtx playground_room_0_dl_ground_mesh_layer_Opaque_vtx_0[54] = {
+	{{ {-300, -170, -188}, 0, {2169, 1435}, {237, 121, 221, 255} }},
+	{{ {-300, -120, -58}, 0, {2153, 680}, {237, 121, 221, 255} }},
+	{{ {9, -120, -131}, 0, {466, 1090}, {237, 121, 221, 255} }},
+	{{ {-159, -170, -203}, 0, {1412, 1523}, {237, 121, 221, 255} }},
+	{{ {-83, -170, -300}, 0, {997, 2046}, {237, 121, 221, 255} }},
+	{{ {140, -120, -300}, 0, {-242, 2029}, {237, 121, 221, 255} }},
+	{{ {-300, -170, -188}, 0, {2169, 1435}, {0, 127, 0, 255} }},
+	{{ {-159, -170, -203}, 0, {1412, 1523}, {0, 127, 0, 255} }},
+	{{ {-83, -170, -300}, 0, {997, 2046}, {0, 127, 0, 255} }},
+	{{ {-300, -170, -300}, 0, {2173, 2044}, {0, 127, 0, 255} }},
+	{{ {227, -120, 300}, 0, {-795, -1266}, {63, 104, 219, 255} }},
+	{{ {163, -120, 181}, 0, {-264, -796}, {63, 104, 219, 255} }},
+	{{ {127, -80, 241}, 0, {-180, -1048}, {63, 104, 219, 255} }},
+	{{ {166, -80, 300}, 0, {-400, -1345}, {63, 104, 219, 255} }},
+	{{ {166, -80, 300}, 0, {-400, -1345}, {253, 127, 249, 255} }},
+	{{ {127, -80, 241}, 0, {-180, -1048}, {253, 127, 249, 255} }},
+	{{ {50, -87, 221}, 0, {211, -906}, {253, 127, 249, 255} }},
+	{{ {14, -80, 300}, 0, {415, -1340}, {253, 127, 249, 255} }},
+	{{ {-83, -170, -300}, 0, {997, 2046}, {239, 125, 13, 255} }},
+	{{ {140, -120, -300}, 0, {-242, 2029}, {239, 125, 13, 255} }},
+	{{ {140, -120, -500}, 0, {-256, 3092}, {239, 125, 13, 255} }},
+	{{ {-83, -130, -500}, 0, {935, 3128}, {239, 125, 13, 255} }},
+	{{ {-300, -170, -300}, 0, {2176, 2016}, {0, 125, 25, 255} }},
+	{{ {-83, -170, -300}, 0, {998, 2007}, {0, 125, 25, 255} }},
+	{{ {-83, -130, -500}, 0, {988, 3095}, {0, 125, 25, 255} }},
+	{{ {-300, -130, -500}, 0, {2187, 3063}, {0, 125, 25, 255} }},
+	{{ {227, -120, 300}, 0, {-795, -1266}, {0, 127, 0, 255} }},
+	{{ {300, -120, 300}, 0, {-1191, -1256}, {0, 127, 0, 255} }},
+	{{ {300, -120, -500}, 0, {-1091, 3132}, {0, 127, 0, 255} }},
+	{{ {163, -120, 181}, 0, {-264, -796}, {0, 127, 0, 255} }},
+	{{ {38, -120, 123}, 0, {450, -454}, {0, 127, 0, 255} }},
+	{{ {-300, -120, 300}, 0, {2173, -1278}, {0, 127, 0, 255} }},
+	{{ {300, -120, -500}, 0, {-1091, 3132}, {0, 127, 0, 255} }},
+	{{ {9, -120, -131}, 0, {466, 1090}, {0, 127, 0, 255} }},
+	{{ {-300, -120, 300}, 0, {2173, -1278}, {0, 127, 0, 255} }},
+	{{ {140, -120, -300}, 0, {-242, 2029}, {0, 127, 0, 255} }},
+	{{ {140, -120, -500}, 0, {-222, 3117}, {0, 127, 0, 255} }},
+	{{ {-300, -120, -58}, 0, {2153, 680}, {0, 127, 0, 255} }},
+	{{ {-71, -120, 300}, 0, {921, -1291}, {0, 127, 0, 255} }},
+	{{ {38, -120, 123}, 0, {450, -454}, {0, 127, 0, 255} }},
+	{{ {140, -120, -500}, 0, {-222, 3117}, {254, 127, 1, 255} }},
+	{{ {300, -120, -500}, 0, {-1091, 3132}, {254, 127, 1, 255} }},
+	{{ {300, -120, -620}, 0, {-1079, 3791}, {254, 127, 1, 255} }},
+	{{ {-300, -130, -500}, 0, {2166, 3128}, {254, 127, 1, 255} }},
+	{{ {-300, -130, -620}, 0, {2177, 3734}, {254, 127, 1, 255} }},
+	{{ {-83, -130, -500}, 0, {988, 3149}, {254, 127, 1, 255} }},
+	{{ {127, -80, 241}, 0, {-180, -1048}, {16, 115, 205, 255} }},
+	{{ {163, -120, 181}, 0, {-264, -796}, {16, 115, 205, 255} }},
+	{{ {38, -120, 123}, 0, {282, -332}, {16, 115, 205, 255} }},
+	{{ {50, -87, 221}, 0, {211, -906}, {16, 115, 205, 255} }},
+	{{ {50, -87, 221}, 0, {211, -906}, {205, 112, 224, 255} }},
+	{{ {38, -120, 123}, 0, {282, -332}, {205, 112, 224, 255} }},
+	{{ {-71, -120, 300}, 0, {921, -1291}, {205, 112, 224, 255} }},
+	{{ {14, -80, 300}, 0, {415, -1340}, {205, 112, 224, 255} }},
 };
 
-Gfx playground_room_0_dl_Floor_mesh_layer_Opaque_tri_0[] = {
-	gsSPVertex(playground_room_0_dl_Floor_mesh_layer_Opaque_vtx_0 + 0, 32, 0),
-	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
-	gsSP2Triangles(4, 0, 3, 0, 3, 5, 4, 0),
-	gsSP2Triangles(3, 6, 5, 0, 3, 7, 6, 0),
-	gsSP2Triangles(5, 8, 4, 0, 8, 9, 4, 0),
-	gsSP2Triangles(10, 11, 12, 0, 13, 10, 12, 0),
-	gsSP2Triangles(12, 14, 13, 0, 12, 15, 14, 0),
-	gsSP2Triangles(16, 17, 18, 0, 16, 18, 19, 0),
-	gsSP2Triangles(20, 21, 22, 0, 20, 22, 23, 0),
-	gsSP2Triangles(23, 24, 20, 0, 23, 25, 24, 0),
-	gsSP2Triangles(23, 26, 25, 0, 23, 27, 26, 0),
-	gsSP2Triangles(28, 29, 30, 0, 28, 30, 31, 0),
+Gfx playground_room_0_dl_ground_mesh_layer_Opaque_tri_0[] = {
+	gsSPVertex(playground_room_0_dl_ground_mesh_layer_Opaque_vtx_0 + 0, 32, 0),
+	gsSP2Triangles(0, 1, 2, 0, 3, 0, 2, 0),
+	gsSP2Triangles(2, 4, 3, 0, 2, 5, 4, 0),
+	gsSP2Triangles(6, 7, 8, 0, 6, 8, 9, 0),
+	gsSP2Triangles(10, 11, 12, 0, 10, 12, 13, 0),
+	gsSP2Triangles(14, 15, 16, 0, 14, 16, 17, 0),
+	gsSP2Triangles(18, 19, 20, 0, 18, 20, 21, 0),
+	gsSP2Triangles(22, 23, 24, 0, 22, 24, 25, 0),
+	gsSP2Triangles(26, 27, 28, 0, 29, 26, 28, 0),
+	gsSP2Triangles(30, 29, 28, 0, 28, 31, 30, 0),
+	gsSPVertex(playground_room_0_dl_ground_mesh_layer_Opaque_vtx_0 + 32, 22, 0),
+	gsSP2Triangles(0, 1, 2, 0, 0, 3, 1, 0),
+	gsSP2Triangles(0, 4, 3, 0, 1, 5, 2, 0),
+	gsSP2Triangles(2, 6, 7, 0, 8, 9, 10, 0),
+	gsSP2Triangles(8, 10, 11, 0, 10, 12, 11, 0),
+	gsSP2Triangles(11, 13, 8, 0, 14, 15, 16, 0),
+	gsSP2Triangles(14, 16, 17, 0, 18, 19, 20, 0),
+	gsSP1Triangle(18, 20, 21, 0),
 	gsSPEndDisplayList(),
 };
 
 Vtx playground_room_0_dl_wall_0_mesh_layer_Opaque_vtx_cull[8] = {
 	{{ {-300, -170, 300}, 0, {0, 0}, {0, 0, 0, 0} }},
 	{{ {-300, 100, 300}, 0, {0, 0}, {0, 0, 0, 0} }},
-	{{ {-300, 100, -300}, 0, {0, 0}, {0, 0, 0, 0} }},
-	{{ {-300, -170, -300}, 0, {0, 0}, {0, 0, 0, 0} }},
+	{{ {-300, 100, -620}, 0, {0, 0}, {0, 0, 0, 0} }},
+	{{ {-300, -170, -620}, 0, {0, 0}, {0, 0, 0, 0} }},
 	{{ {300, -170, 300}, 0, {0, 0}, {0, 0, 0, 0} }},
 	{{ {300, 100, 300}, 0, {0, 0}, {0, 0, 0, 0} }},
-	{{ {300, 100, -300}, 0, {0, 0}, {0, 0, 0, 0} }},
-	{{ {300, -170, -300}, 0, {0, 0}, {0, 0, 0, 0} }},
+	{{ {300, 100, -620}, 0, {0, 0}, {0, 0, 0, 0} }},
+	{{ {300, -170, -620}, 0, {0, 0}, {0, 0, 0, 0} }},
 };
 
-Vtx playground_room_0_dl_wall_0_mesh_layer_Opaque_vtx_0[16] = {
+Vtx playground_room_0_dl_wall_0_mesh_layer_Opaque_vtx_0[24] = {
 	{{ {-300, -120, 300}, 0, {-11, 2037}, {127, 0, 0, 255} }},
-	{{ {-300, -120, -58}, 0, {2549, 2037}, {127, 0, 0, 255} }},
-	{{ {-300, 100, -58}, 0, {2549, -21}, {127, 0, 0, 255} }},
+	{{ {-300, -120, -58}, 0, {2545, 2033}, {127, 0, 0, 255} }},
+	{{ {-300, 100, -58}, 0, {2545, -25}, {127, 0, 0, 255} }},
 	{{ {-300, 100, 300}, 0, {-11, -21}, {127, 0, 0, 255} }},
 	{{ {-300, 100, -58}, 0, {-16, -16}, {127, 0, 0, 255} }},
 	{{ {-300, -120, -58}, 0, {-16, 2026}, {127, 0, 0, 255} }},
 	{{ {-300, -170, -188}, 0, {970, 2032}, {127, 0, 0, 255} }},
 	{{ {-300, 50, -188}, 0, {1000, -25}, {127, 0, 0, 255} }},
+	{{ {-300, -170, -298}, 0, {1830, 2044}, {127, 0, 0, 255} }},
+	{{ {-300, 50, -298}, 0, {1860, -12}, {127, 0, 0, 255} }},
 	{{ {-300, -120, 300}, 0, {-11, 2037}, {0, 0, 129, 255} }},
 	{{ {-300, 100, 300}, 0, {-11, -21}, {0, 0, 129, 255} }},
 	{{ {300, 100, 300}, 0, {-4300, -21}, {0, 0, 129, 255} }},
 	{{ {300, -120, 300}, 0, {-4300, 2037}, {0, 0, 129, 255} }},
 	{{ {300, -120, 300}, 0, {-4300, 2037}, {129, 0, 0, 255} }},
 	{{ {300, 100, 300}, 0, {-4300, -21}, {129, 0, 0, 255} }},
-	{{ {300, 100, -300}, 0, {-8590, -21}, {129, 0, 0, 255} }},
-	{{ {300, -120, -300}, 0, {-8590, 2037}, {129, 0, 0, 255} }},
+	{{ {300, 100, -620}, 0, {-10878, -21}, {129, 0, 0, 255} }},
+	{{ {300, -120, -620}, 0, {-10878, 2037}, {129, 0, 0, 255} }},
+	{{ {-300, 50, -298}, 0, {-21, -12}, {127, 0, 0, 255} }},
+	{{ {-300, -170, -298}, 0, {0, 2019}, {127, 0, 0, 255} }},
+	{{ {-300, -130, -498}, 0, {2039, 2036}, {127, 0, 0, 255} }},
+	{{ {-300, 90, -498}, 0, {2069, -33}, {127, 0, 0, 255} }},
+	{{ {-300, -130, -618}, 0, {3293, 2055}, {127, 0, 0, 255} }},
+	{{ {-300, 90, -618}, 0, {3323, -15}, {127, 0, 0, 255} }},
 };
 
 Gfx playground_room_0_dl_wall_0_mesh_layer_Opaque_tri_0[] = {
-	gsSPVertex(playground_room_0_dl_wall_0_mesh_layer_Opaque_vtx_0 + 0, 16, 0),
+	gsSPVertex(playground_room_0_dl_wall_0_mesh_layer_Opaque_vtx_0 + 0, 24, 0),
 	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
 	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0),
-	gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0),
-	gsSP2Triangles(12, 13, 14, 0, 12, 14, 15, 0),
+	gsSP2Triangles(7, 6, 8, 0, 7, 8, 9, 0),
+	gsSP2Triangles(10, 11, 12, 0, 10, 12, 13, 0),
+	gsSP2Triangles(14, 15, 16, 0, 14, 16, 17, 0),
+	gsSP2Triangles(18, 19, 20, 0, 18, 20, 21, 0),
+	gsSP2Triangles(21, 20, 22, 0, 21, 22, 23, 0),
 	gsSPEndDisplayList(),
 };
 
@@ -224,10 +272,10 @@ Gfx mat_playground_room_0_dl_grass_layerOpaque[] = {
 	gsSPSetOtherMode(G_SETOTHERMODE_L, 0, 32, G_AC_NONE | G_ZS_PIXEL | G_RM_FOG_SHADE_A | G_RM_AA_ZB_OPA_SURF2),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPSetPrimColor(0, 0, 255, 255, 255, 255),
-	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, playground_room_0_dl_grassGround_tex_pal_rgba16),
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, playground_room_0_dl_grassGround_tex_rgba16_pal_rgba16),
 	gsDPSetTile(0, 0, 0, 256, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
 	gsDPLoadTLUTCmd(5, 74),
-	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 1, playground_room_0_dl_grassGround_tex_ci8),
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 1, playground_room_0_dl_grassGround_tex_rgba16_ci8),
 	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
 	gsDPLoadBlock(7, 0, 0, 511, 512),
 	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b, 4, 0, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 5, 0),
@@ -243,10 +291,10 @@ Gfx mat_playground_room_0_dl_walls_layerOpaque[] = {
 	gsSPSetOtherMode(G_SETOTHERMODE_L, 0, 32, G_AC_NONE | G_ZS_PIXEL | G_RM_FOG_SHADE_A | G_RM_AA_ZB_OPA_SURF2),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPSetPrimColor(0, 0, 255, 255, 255, 255),
-	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, playground_room_0_dl_stoneBorder_tex_pal_rgba16),
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, playground_room_0_dl_stoneBorder_tex_ci4_pal_rgba16),
 	gsDPSetTile(0, 0, 0, 256, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
 	gsDPLoadTLUTCmd(5, 15),
-	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, playground_room_0_dl_stoneBorder_tex_ci4),
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, playground_room_0_dl_stoneBorder_tex_ci4_ci4),
 	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
 	gsDPLoadBlock(7, 0, 0, 1023, 512),
 	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_4b, 4, 0, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 6, 0, G_TX_WRAP | G_TX_NOMIRROR, 6, 0),
@@ -254,13 +302,13 @@ Gfx mat_playground_room_0_dl_walls_layerOpaque[] = {
 	gsSPEndDisplayList(),
 };
 
-Gfx playground_room_0_dl_Floor_mesh_layer_Opaque[] = {
+Gfx playground_room_0_dl_ground_mesh_layer_Opaque[] = {
 	gsSPClearGeometryMode(G_LIGHTING),
-	gsSPVertex(playground_room_0_dl_Floor_mesh_layer_Opaque_vtx_cull + 0, 8, 0),
+	gsSPVertex(playground_room_0_dl_ground_mesh_layer_Opaque_vtx_cull + 0, 8, 0),
 	gsSPSetGeometryMode(G_LIGHTING),
 	gsSPCullDisplayList(0, 7),
 	gsSPDisplayList(mat_playground_room_0_dl_grass_layerOpaque),
-	gsSPDisplayList(playground_room_0_dl_Floor_mesh_layer_Opaque_tri_0),
+	gsSPDisplayList(playground_room_0_dl_ground_mesh_layer_Opaque_tri_0),
 	gsSPEndDisplayList(),
 };
 
