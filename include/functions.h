@@ -637,6 +637,8 @@ void Camera_SetCameraData(Camera* camera, s16 setDataFlags, void* data0, void* d
                           UNK_TYPE arg6);
 s32 func_8005B198(void);
 s16 Camera_SetFinishedFlag(Camera* camera);
+void Camera_setFuncId(Camera* camera, s16 idx);
+s16  Camera_getFuncIdx(Camera* camera);
 DamageTable* DamageTable_Get(s32 index);
 void DamageTable_Clear(DamageTable* table);
 #if IS_DEBUG
@@ -1755,6 +1757,8 @@ u8 Message_GetState(MessageContext* msgCtx);
 void Message_Draw(PlayState* play);
 void Message_Update(PlayState* play);
 void Message_SetTables(void);
+/* abdoo-oot */
+void Message_switchSpeaker(PlayState* play);
 
 void Interface_Destroy(PlayState* play);
 void Interface_Init(PlayState* play);
