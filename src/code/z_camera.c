@@ -3626,6 +3626,11 @@ s32 Camera_KeepOn3(Camera* camera) {
     return 1;
 }
 
+/* ripped from `Camera_CalcAtDefault` */
+void Camera_LookAt(Camera* camera, Vec3f* atPos, f32 yOffset) {
+    Camera_LERPCeilVec3f(atPos, &camera->at, camera->atLERPStepScale, camera->atLERPStepScale, 0.2f);
+}
+
 #pragma increment_block_number 100
 
 s32 Camera_KeepOn4(Camera* camera) {
@@ -8147,7 +8152,16 @@ Vec3s Camera_Update(Camera* camera) {
     }
 
     if (sOOBTimer < 200) {
-        sCameraFunctions[sCameraSettings[camera->setting].cameraModes[camera->mode].funcIdx](camera);
+        // sCameraFunctions[sCameraSettings[camera->setting].cameraModes[camera->mode].funcIdx](camera);
+        s16 funcID = Camera_getFuncIdx(camera);
+
+        switch (funcID) {
+            case CAM_FUNC_LOOKAT:
+                Camera_LookAt(camera, &camera->targetPosRot.pos, 0.0f);
+                break;
+            default:
+                sCameraFunctions[funcID](camera);
+        }
     } else if (camera->player != NULL) {
         eyeAtAngle = OLib_Vec3fDiffToVecGeo(&camera->at, &camera->eye);
         Camera_CalcAtDefault(camera, &eyeAtAngle, 0.0f, false);
@@ -8960,3 +8974,18 @@ Vec3s Camera_Update(Camera* camera) {
 
             return camera->camId;
         }
+
+
+/**
+ * Sets current camera's settings' func idx to the 2nd argument
+ */
+void Camera_setFuncId(Camera* camera, s16 idx) {
+    sCameraSettings[camera->setting].cameraModes[camera->mode].funcIdx = idx;
+}
+
+/**
+ * Returns the funcIdx of the current cam settings
+ */
+s16 Camera_getFuncIdx(Camera* camera) {
+    return sCameraSettings[camera->setting].cameraModes[camera->mode].funcIdx;
+}

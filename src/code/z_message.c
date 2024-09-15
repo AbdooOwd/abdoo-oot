@@ -3,6 +3,11 @@
 #include "terminal.h"
 #include "assets/textures/parameter_static/parameter_static.h"
 
+/* speaker switch */
+bool switched_speaker = false;
+bool found_switch_speaker = false;
+bool can_find_switch_speaker = true;
+
 s16 sTextFade = false; // original name: key_off_flag ?
 
 u8 D_8014B2F4 = 0;
@@ -236,6 +241,13 @@ u8 Message_ShouldAdvance(PlayState* play) {
         CHECK_BTN_ALL(input->press.button, BTN_CUP)) {
         Audio_PlaySfxGeneral(NA_SE_SY_MESSAGE_PASS, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
+        
+        if (found_switch_speaker) {
+            // Debug_Print(5, "Gonna Switch");
+            Message_switchSpeaker(play);
+            found_switch_speaker = false;
+            can_find_switch_speaker = true;
+        }
     }
     return CHECK_BTN_ALL(input->press.button, BTN_A) || CHECK_BTN_ALL(input->press.button, BTN_B) ||
            CHECK_BTN_ALL(input->press.button, BTN_CUP);
@@ -243,6 +255,13 @@ u8 Message_ShouldAdvance(PlayState* play) {
 
 u8 Message_ShouldAdvanceSilent(PlayState* play) {
     Input* input = &play->state.input[0];
+
+    if (found_switch_speaker) {
+            // Debug_Print(5, "Gonna Switch");
+            Message_switchSpeaker(play);
+            found_switch_speaker = false;
+            can_find_switch_speaker = true;
+        }
 
     return CHECK_BTN_ALL(input->press.button, BTN_A) || CHECK_BTN_ALL(input->press.button, BTN_B) ||
            CHECK_BTN_ALL(input->press.button, BTN_CUP);
@@ -262,6 +281,10 @@ void Message_CloseTextbox(PlayState* play) {
         Audio_PlaySfxGeneral(NA_SE_NONE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultReverb);
     }
+
+    switched_speaker = false;
+    found_switch_speaker = false;
+    can_find_switch_speaker = true;
 }
 
 void Message_HandleChoiceSelection(PlayState* play, u8 numChoices) {
@@ -676,7 +699,9 @@ void Message_DrawTextboxIcon(PlayState* play, Gfx** p, s16 x, s16 y) {
 }
 
 #define MESSAGE_SPACE_WIDTH 6
+
 f32 sFontWidths[144] = {
+#ifndef USE_RODIN_FONT
     8.0f,  // ' '
     8.0f,  // '!'
     6.0f,  // '"'
@@ -821,6 +846,9 @@ f32 sFontWidths[144] = {
     14.0f, // ?
     14.0f, // ?
     14.0f, // ?
+#else
+#include "assets/textures/nes_font_static/rodin.font_width.h"
+#endif
 };
 
 u16 Message_DrawItemIcon(PlayState* play, u16 itemId, Gfx** p, u16 i) {
@@ -1216,6 +1244,15 @@ void Message_DrawText(PlayState* play, Gfx** gfxP) {
                 }
                 *gfxP = gfx;
                 return;
+
+            case MESSAGE_SWITCH_SPEAKER:
+                if (!found_switch_speaker && can_find_switch_speaker) {
+                    found_switch_speaker = true;
+                    can_find_switch_speaker = false;
+                    // Debug_Print(4, "Found Switch");
+                }
+                break;
+
             default:
                 if (msgCtx->msgMode == MSGMODE_TEXT_DISPLAYING && i + 1 == msgCtx->textDrawPos &&
                     msgCtx->textDelayTimer == msgCtx->textDelay) {
@@ -3490,4 +3527,20 @@ void Message_SetTables(void) {
 #endif
 
     sStaffMessageEntryTablePtr = sStaffMessageEntryTable;
+}
+
+void Message_switchSpeaker(PlayState* play) {
+    Camera* camera = GET_ACTIVE_CAM(play);
+    Player* player = GET_PLAYER(play);
+
+    switched_speaker = !switched_speaker;
+
+    if (switched_speaker) {
+        camera->targetPosRot.pos = player->actor.world.pos;
+        camera->targetPosRot.pos.y += Player_GetHeight(player) - 10.0f;
+    } else {
+        camera->targetPosRot.pos = play->msgCtx.talkActor->focus.pos;
+    }
+
+    Camera_setFuncId(camera, CAM_FUNC_LOOKAT);
 }

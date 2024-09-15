@@ -1583,6 +1583,12 @@ s32 func_8002F0C8(Actor* actor, Player* player, s32 flag) {
  */
 s32 Actor_TalkOfferAccepted(Actor* actor, PlayState* play) {
     if (actor->flags & ACTOR_FLAG_TALK) {
+        /**
+         * sometimes, previous `CAM_FUN_LOOKAT` (0x47) replaces `CAM_FUNC_KEEP3` (0x0E).
+         * So we reset it in case.
+         */
+        Camera_setFuncId(GET_ACTIVE_CAM(play), CAM_FUNC_KEEP3);
+        
         actor->flags &= ~ACTOR_FLAG_TALK;
         return true;
     }

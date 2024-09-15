@@ -44,6 +44,9 @@
 #define MESSAGE_HIGHSCORE                  0x1E
 #define MESSAGE_TIME                       0x1F
 
+/* abdoo-oot */
+#define MESSAGE_SWITCH_SPEAKER             0x03
+
 // Wide (jpn)
 
 #define MESSAGE_WIDE_NEWLINE               0x000A
@@ -182,6 +185,7 @@ typedef enum {
 # define FISH_INFO                                          CTRL_BASE(FISH_INFO)
 # define HIGHSCORE(highscore)                               CTRL_BASE(HIGHSCORE)            ARG1(highscore)
 # define TIME                                               CTRL_BASE(TIME)
+# define SWITCH_SPEAKER                                     CTRL_BASE(SWITCH_SPEAKER)
 
 #endif
 

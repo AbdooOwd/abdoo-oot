@@ -2483,6 +2483,7 @@ s32 Camera_Special6(Camera* camera);
 s32 Camera_Special7(Camera* camera);
 s32 Camera_Special8(Camera* camera);
 s32 Camera_Special9(Camera* camera);
+void Camera_LookAt(Camera* camera, Vec3f* atPos, f32 yOffset);
 
 s32 (*sCameraFunctions[])(Camera*) = {
     NULL,             // CAM_FUNC_NONE
@@ -2662,6 +2663,7 @@ char sCameraFunctionNames[][8] = {
     "SPEC7()", // CAM_FUNC_SPEC7
     "SPEC8()", // CAM_FUNC_SPEC8
     "SPEC9()", // CAM_FUNC_SPEC9
+    "LOKAT()", // CAM_FUNC_LOOKAT
     "",        "", "", "", "",
 };
 #endif
