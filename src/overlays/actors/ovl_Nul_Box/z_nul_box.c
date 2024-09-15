@@ -27,7 +27,6 @@ const ActorInit Nul_Box_InitVars = {
 void Nul_Box_Init(Actor* thisx, PlayState* play) {
 	Nul_Box* this = (Nul_Box*) thisx;
 
-	Debug_Print(1, "I eat soup");
 }
 
 void Nul_Box_Destroy(Actor* thisx, PlayState* play) {
