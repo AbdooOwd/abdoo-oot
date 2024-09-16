@@ -7,7 +7,8 @@
 #include "z_the_dev.h"
 #include "assets/objects/object_trololo/gTrololoDL.h"
 
-#define FLAGS (ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FLAGS 			(ACTOR_FLAG_0 | ACTOR_FLAG_3)
+#define FOCUS_FIXER 	10
 
 void TheDev_Init(Actor* thisx, PlayState* play);
 void TheDev_Destroy(Actor* thisx, PlayState* play);
@@ -36,7 +37,7 @@ typedef enum {
 void TheDev_Init(Actor* thisx, PlayState* play) {
 	the_dev* this = (the_dev*) thisx;
 
-	this->amplitude = 5;
+	this->amplitude = 25;
 	this->speed = 0.05;
 	this->time = 0;
 }
@@ -51,10 +52,11 @@ void TheDev_Update(Actor* thisx, PlayState* play) {
 
 	// Debug_Print(1, "Home POS: %f", this->actor.home.pos.y);
 	// Debug_Print(2, "Cur POS: %f", this->actor.world.pos.y);
-	Debug_Print(1, "cur CamFuncID: 0x%x", Camera_getFuncIdx(GET_ACTIVE_CAM(play)));
+	Debug_Print(1, "Cur CamFuncID: 0x%x", Camera_getFuncIdx(GET_ACTIVE_CAM(play)));
+
 	// float
-	this->actor.world.pos.y = this->amplitude * sinf(this->time);
-	this->actor.focus.pos.y = this->actor.world.pos.y;
+	this->actor.world.pos.y = this->actor.home.pos.y +  this->amplitude * sinf(this->time);
+	this->actor.focus.pos.y = this->actor.world.pos.y + FOCUS_FIXER;
 	this->time += this->speed;
 
 	Npc_UpdateTalking(
