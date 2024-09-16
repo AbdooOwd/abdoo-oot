@@ -4,15 +4,23 @@
 	the game (Fast64 does it, but without the "entrances" thing) [X]
 
 -	Put in a function the code to make the camera look 
-	at an NPC when talking to him [ ]
+	at an NPC when talking to him [X]
 	
 	-	Use this function to make the camera 
 	face Link when meeting a trigger:
 
-		-	Use the function
-		-	Code a trigger like `BOX_BREAK`
+		-	Use the function [X] *(it's `Message_switchSpeaker`)*
+		-	Code a trigger like `BOX_BREAK` [X]
 
--	Add whd as a boss.
--	Add Abi Boss (with water/gaz pipe)
+-	Add whd as a boss [ ]
+-	Add Abi Boss (with water/gaz pipe) [ ]
 	-	Have the boss fight start with him askin if I did X
 	then we have 2 options: yes (liar), no (fight)
+
+- 	Figure out how to make cutscenes [ ]
+-	Make intro cutscene [ ]
+	-	**Scenario 1:** Abdoo is chillin' in his flat. Until his N64 bugs
+		and transports him into ZeldaOoT.
+	-	**Scenario 2:** The world is about to try an experiment, but this experiment
+		made that a few people in the world got teleported into ZeldaOoT.
+		Of course, Abdoo's one of them.

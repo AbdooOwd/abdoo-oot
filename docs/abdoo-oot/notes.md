@@ -37,3 +37,7 @@
 	    # Increment time to animate the floating
 	    time += speed
 	```
+
+-	If I keep [Z] button pressed while displaying a textbox, and that textbox
+	has a speaker switch, when the textbox closes; the camera stays stuck
+	in `LookAt` camera mode *(mode used when switching talkers)*.
