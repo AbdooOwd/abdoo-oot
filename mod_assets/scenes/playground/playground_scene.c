@@ -1,4 +1,6 @@
 #include "playground_scene.h"
+#include "z64cutscene.h"
+#include "z64cutscene_commands.h"
 
 
 /**
@@ -14,6 +16,7 @@ SceneCmd playground_scene_header00[] = {
     SCENE_CMD_ENV_LIGHT_SETTINGS(4, playground_scene_header00_lightSettings),
     SCENE_CMD_ENTRANCE_LIST(playground_scene_header00_entranceList),
     SCENE_CMD_SPAWN_LIST(1, playground_scene_header00_playerEntryList),
+    SCENE_CMD_CUTSCENE_DATA(playground_introCS),
     SCENE_CMD_END(),
 };
 
@@ -81,6 +84,25 @@ EnvLightSettings playground_scene_header00_lightSettings[4] = {
         ((1 << 10) | 992),         // Blend Rate & Fog Near
         12800,                     // Fog Far
     },
+};
+
+CutsceneData playground_introCS[] = {
+    CS_BEGIN_CUTSCENE(2, 152),
+        CS_CAM_EYE_SPLINE(0, 151),
+            CS_CAM_POINT(CS_CAM_CONTINUE, 0, 0, 60.0f, 56, 0, 0, 0),
+            CS_CAM_POINT(CS_CAM_CONTINUE, 0, 0, 60.0f, 112, 0, -50, 0),
+            CS_CAM_POINT(CS_CAM_CONTINUE, 0, 0, 60.0f, -232, -80, 104, 0),
+            CS_CAM_POINT(CS_CAM_CONTINUE, 0, 0, 60.0f, -236, -90, 154, 0),
+            CS_CAM_POINT(CS_CAM_CONTINUE, 0, 0, 60.0f, -60, -25, 9, 0),
+            CS_CAM_POINT(CS_CAM_STOP, 0, 0, 0.0f, 0, 0, 0, 0),
+        CS_CAM_AT_SPLINE(0, 180),
+            CS_CAM_POINT(CS_CAM_CONTINUE, 0, 30, 60.0f, 56, 0, -56, 0),
+            CS_CAM_POINT(CS_CAM_CONTINUE, 0, 30, 60.0f, 112, 0, -106, 0),
+            CS_CAM_POINT(CS_CAM_CONTINUE, 0, 30, 60.0f, -232, -80, 160, 0),
+            CS_CAM_POINT(CS_CAM_CONTINUE, 0, 30, 60.0f, -236, -90, 210, 0),
+            CS_CAM_POINT(CS_CAM_CONTINUE, 0, 30, 60.0f, -114, -25, 24, 0),
+            CS_CAM_POINT(CS_CAM_STOP, 0, 0, 0.0f, 0, 0, 0, 0),
+    CS_END(),
 };
 
 CollisionHeader playground_scene_collisionHeader = {

@@ -13,6 +13,7 @@ extern u8 _playground_room_0SegmentRomEnd[];
 extern ActorEntry playground_scene_header00_playerEntryList[];
 extern Spawn playground_scene_header00_entranceList[];
 extern EnvLightSettings playground_scene_header00_lightSettings[4];
+extern CutsceneData playground_introCS[];
 extern CollisionHeader playground_scene_collisionHeader;
 extern SurfaceType playground_scene_polygonTypes[1];
 extern Vec3s playground_scene_vertices[34];
