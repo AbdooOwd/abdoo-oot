@@ -126,6 +126,13 @@ MessageTableEntry sStaffMessageEntryTable[] = {
     { 0xFFFF, 0, NULL },
 };
 
+#define SWITCH_TALKER(play)             \
+    if (found_switch_speaker && play->msgCtx.msgMode == MSGMODE_TEXT_AWAIT_INPUT) { \
+        Message_switchSpeaker(play);    \
+        found_switch_speaker = false;   \
+        can_find_switch_speaker = true; \
+    }
+
 #if OOT_NTSC
 MessageTableEntry* sJpnMessageEntryTablePtr = sJpnMessageEntryTable;
 MessageTableEntry* sNesMessageEntryTablePtr = sNesMessageEntryTable;
@@ -242,12 +249,7 @@ u8 Message_ShouldAdvance(PlayState* play) {
         Audio_PlaySfxGeneral(NA_SE_SY_MESSAGE_PASS, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
         
-        if (found_switch_speaker) {
-            // Debug_Print(5, "Gonna Switch");
-            Message_switchSpeaker(play);
-            found_switch_speaker = false;
-            can_find_switch_speaker = true;
-        }
+        SWITCH_TALKER(play)
     }
     return CHECK_BTN_ALL(input->press.button, BTN_A) || CHECK_BTN_ALL(input->press.button, BTN_B) ||
            CHECK_BTN_ALL(input->press.button, BTN_CUP);
@@ -256,12 +258,7 @@ u8 Message_ShouldAdvance(PlayState* play) {
 u8 Message_ShouldAdvanceSilent(PlayState* play) {
     Input* input = &play->state.input[0];
 
-    if (found_switch_speaker) {
-            // Debug_Print(5, "Gonna Switch");
-            Message_switchSpeaker(play);
-            found_switch_speaker = false;
-            can_find_switch_speaker = true;
-        }
+    SWITCH_TALKER(play)
 
     return CHECK_BTN_ALL(input->press.button, BTN_A) || CHECK_BTN_ALL(input->press.button, BTN_B) ||
            CHECK_BTN_ALL(input->press.button, BTN_CUP);
@@ -3543,5 +3540,9 @@ void Message_switchSpeaker(PlayState* play) {
         camera->targetPosRot.pos = play->msgCtx.talkActor->focus.pos;
     }
 
-    Camera_setFuncId(camera, CAM_FUNC_LOOKAT);
+    Debug_Print(2, "msgMode: %i", play->msgCtx.msgMode);
+
+    // don't really need checks... right?
+    // if (player->talkActor != NULL && play->msgCtx.msgMode == MSGMODE_TEXT_AWAIT_NEXT)
+        Camera_setFuncId(camera, CAM_FUNC_LOOKAT);
 }
