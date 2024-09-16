@@ -412,3 +412,5 @@
 /* 0x0192 */ DEFINE_OBJECT(object_low_table, OBJECT_LOW_TABLE)
 			 DEFINE_OBJECT(object_nul_box, OBJECT_NUL_BOX)
 			 DEFINE_OBJECT(object_trololo, OBJECT_TROLOLO)
+
+			 DEFINE_OBJECT(object_tele, OBJECT_TELE)

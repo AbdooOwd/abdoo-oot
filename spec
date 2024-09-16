@@ -4089,6 +4089,14 @@ endseg
 /* ACTORS FOR PYTHON */
 
 beginseg
+	name "ovl_Tele"
+	compress
+	include "$(BUILD_DIR)/src/overlays/actors/ovl_Tele/z_tele.o"
+	include "$(BUILD_DIR)/src/overlays/actors/ovl_Tele/ovl_Tele_reloc.o"
+endseg
+
+
+beginseg
 	name "ovl_the_dev"
 	compress
 	include "$(BUILD_DIR)/src/overlays/actors/ovl_the_dev/z_the_dev.o"
@@ -7168,6 +7176,15 @@ beginseg
 endseg
 
 /* OBJECT FOR PYTHON */
+
+beginseg
+	name "object_tele"
+	compress
+	romalign 0x1000
+	include "$(BUILD_DIR)/assets/objects/object_tele/gTeleDL.o"
+	number 6
+endseg
+
 
 beginseg
 	name "object_trololo"

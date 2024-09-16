@@ -30,7 +30,7 @@ MSG("german")
 MSG("french")
 )
 
-DEFINE_MESSAGE(0x302, TEXTBOX_TYPE_BLUE, TEXTBOX_POS_BOTTOM,
+DEFINE_MESSAGE(0x302, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_BOTTOM,
 MSG("japanese")
 ,
 MSG(
@@ -54,6 +54,37 @@ MSG("german")
 ,
 MSG("french")
 )
+
+
+DEFINE_MESSAGE(0x0303, TEXTBOX_TYPE_BLACK, TEXTBOX_POS_BOTTOM,
+MSG("japanese")
+,
+MSG(
+	"What are you doing here link?\n"
+	"You should be sleeping!"
+	SWITCH_SPEAKER
+	BOX_BREAK
+	"I had a nightmare"
+	SWITCH_SPEAKER
+	BOX_BREAK
+	"OK"
+)
+,
+MSG("german")
+,
+MSG("french")
+)
+
+DEFINE_MESSAGE(0x0304, TEXTBOX_TYPE_BLUE, TEXTBOX_POS_BOTTOM,
+MSG("japanese")
+,
+MSG("Why is there a troll face on the TV?")
+,
+MSG("german")
+,
+MSG("french")
+)
+
 
 
 // Ocarina stuff

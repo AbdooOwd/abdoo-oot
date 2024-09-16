@@ -1,0 +1,9 @@
+extern u64 gTeleDL_trolo_rgba16_ia8[];
+extern Vtx gTeleDL_gTeleDL_mesh_layer_Opaque_vtx_cull[8];
+extern Vtx gTeleDL_gTeleDL_mesh_layer_Opaque_vtx_0[92];
+extern Gfx gTeleDL_gTeleDL_mesh_layer_Opaque_tri_0[];
+extern Vtx gTeleDL_gTeleDL_mesh_layer_Opaque_vtx_1[4];
+extern Gfx gTeleDL_gTeleDL_mesh_layer_Opaque_tri_1[];
+extern Gfx mat_gTeleDL_black_layerOpaque[];
+extern Gfx mat_gTeleDL_trol_layerOpaque[];
+extern Gfx gTeleDL[];
