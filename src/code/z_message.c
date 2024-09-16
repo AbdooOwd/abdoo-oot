@@ -127,7 +127,7 @@ MessageTableEntry sStaffMessageEntryTable[] = {
 };
 
 #define SWITCH_TALKER(play)             \
-    if (found_switch_speaker && play->msgCtx.msgMode == MSGMODE_TEXT_AWAIT_INPUT) { \
+    if (found_switch_speaker) {         \
         Message_switchSpeaker(play);    \
         found_switch_speaker = false;   \
         can_find_switch_speaker = true; \
