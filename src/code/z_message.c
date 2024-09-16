@@ -1014,16 +1014,17 @@ void Message_DrawText(PlayState* play, Gfx** gfxP) {
                 break;
             case MESSAGE_BOX_BREAK:
                 if (msgCtx->msgMode == MSGMODE_TEXT_DISPLAYING) {
-                    if (!sTextboxSkipped) {
+                    // this if-else to act the same when pressing B or A (no fast skipping boey)
+                    //if (!sTextboxSkipped) {
                         Audio_PlaySfxGeneral(NA_SE_NONE, &gSfxDefaultPos, 4, &gSfxDefaultFreqAndVolScale,
                                              &gSfxDefaultFreqAndVolScale, &gSfxDefaultReverb);
                         msgCtx->msgMode = MSGMODE_TEXT_AWAIT_NEXT;
                         Font_LoadMessageBoxIcon(font, TEXTBOX_ICON_TRIANGLE);
-                    } else {
+                    /*} else {
                         msgCtx->msgMode = MSGMODE_TEXT_NEXT_MSG;
                         msgCtx->textUnskippable = false;
                         msgCtx->msgBufPos++;
-                    }
+                    }*/
                 }
                 *gfxP = gfx;
                 return;
