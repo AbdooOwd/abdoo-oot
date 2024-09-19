@@ -41,3 +41,8 @@
 -	If I keep [Z] button pressed while displaying a textbox, and that textbox
 	has a speaker switch, when the textbox closes; the camera stays stuck
 	in `LookAt` camera mode *(mode used when switching talkers)*.
+
+-	Gotta set `PlayState`'s `nextEntranceId` so you switch scenes 
+	*(Or use my macro `SET_NEXt_ENTRANCE`)*.
+
+-	29 test entrances.

@@ -24,3 +24,9 @@
 	-	**Scenario 2:** The world is about to try an experiment, but this experiment
 		made that a few people in the world got teleported into ZeldaOoT.
 		Of course, Abdoo's one of them.
+
+-	After checking the TV, Abdoo is teleported into OoT.
+
+-	Learn about OoT's filesystem.
+-	Make an Audio driver so it can play audio files.
+-	Play music in-game.
