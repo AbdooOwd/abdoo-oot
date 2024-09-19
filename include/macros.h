@@ -145,6 +145,16 @@
         (state)->size = sizeof(newStruct);               \
     } while (0)
 
+/* abdoo-oot for scene switch */
+#define SET_NEXT_ENTRANCE(curState, entranceId) \
+    (curState)->running = false;                \
+    gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex = gSaveContext.save.entranceIndex = entranceId; \
+    SET_NEXT_GAMESTATE(curState, Play_Init, PlayState)
+
+#define NEXT_ENTRANCE_TRANS(play, entranceId)           \
+    (play)->transitionTrigger = TRANS_TRIGGER_START; \
+	(play)->nextEntranceIndex = entranceId;
+
 #define SET_FULLSCREEN_VIEWPORT(view)      \
     {                                      \
         Viewport viewport;                 \
