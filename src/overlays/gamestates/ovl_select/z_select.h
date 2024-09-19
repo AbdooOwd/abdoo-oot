@@ -61,11 +61,12 @@ static const Color_RGBA8 sColors[] = {
 };
 
 static SceneSelectEntry sScenes[] = {
-	{ "Playground", MapSelect_LoadGame, ENTR_PLAYGROUND_0 },
-    { "Title Screen", (void*)MapSelect_LoadTitle, 0 },
 #if INCLUDE_EXAMPLE_SCENE
     { "Example", MapSelect_LoadGame, ENTR_EXAMPLE_0 },
 #endif
+    { "Title Screen", (void*)MapSelect_LoadTitle, 0 },
+	{ "Playground", MapSelect_LoadGame, ENTR_PLAYGROUND_0 },
+	{ "Lost Forest", MapSelect_LoadGame, ENTR_LOST_FOREST_0 },
     { "Hyrule Field", MapSelect_LoadGame, ENTR_HYRULE_FIELD_0 },
     { "Kakariko Village", MapSelect_LoadGame, ENTR_KAKARIKO_VILLAGE_0 },
     { "Graveyard", MapSelect_LoadGame, ENTR_GRAVEYARD_0 },

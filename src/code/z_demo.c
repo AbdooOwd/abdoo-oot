@@ -23,6 +23,8 @@
 #include "assets/scenes/overworld/spot18/spot18_scene.h"
 #include "assets/scenes/overworld/spot20/spot20_scene.h"
 
+#include "assets/scenes/overworld/lost_forest/lost_forest_scene.h"
+
 #include "assets/scenes/dungeons/bdan/bdan_scene.h"
 #include "assets/scenes/dungeons/ddan/ddan_scene.h"
 #include "assets/scenes/dungeons/ydan/ydan_scene.h"
@@ -110,6 +112,7 @@ EntranceCutscene sEntranceCutsceneTable[] = {
     { ENTR_GERUDOS_FORTRESS_17, 0, EVENTCHKINF_C7, gGerudoFortressFirstCaptureCs },
     { ENTR_DEATH_MOUNTAIN_CRATER_1, 2, EVENTCHKINF_B9, gDeathMountainCraterIntroCs },
     { ENTR_KOKIRI_FOREST_12, 2, EVENTCHKINF_C6, gKokiriForestDekuSproutCs },
+    { ENTR_LOST_FOREST_0, 2, EVENTCHKINF_8D, welcome_CS},
 };
 
 void* sUnusedEntranceCsList[] = {

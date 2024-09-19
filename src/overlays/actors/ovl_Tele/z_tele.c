@@ -17,6 +17,8 @@ void Tele_Draw(Actor* thisx, PlayState* play);
 u16 Tele_getNextTextId(PlayState* play, Actor* thisx);
 s16 Tele_updateTalkState(PlayState* play, Actor* thisx);
 
+extern void Camera_UpdateInterface(s16 interfaceField);
+
 const ActorInit Tele_InitVars = {
 	ACTOR_TELE,
 	ACTORCAT_BG,
@@ -30,6 +32,7 @@ const ActorInit Tele_InitVars = {
 };
 
 f32 scale_factor = 0;
+bool talked = false;
 
 enum {
 	TELE_INFO_TEXT_ID = 0x304,
@@ -42,6 +45,8 @@ void Tele_Init(Actor* thisx, PlayState* play) {
 	this->bounce_speed = 0.1;
 	this->scale_amplitude = 0.15;
 	this->time = 0;
+
+	this->actor.focus.pos.y += 20 * this->actor.scale.y;	// stabilize focus
 }
 
 void Tele_Destroy(Actor* thisx, PlayState* play) {
@@ -66,6 +71,12 @@ void Tele_Update(Actor* thisx, PlayState* play) {
 		Tele_getNextTextId,
 		Tele_updateTalkState
 	);
+	
+	if (play->msgCtx.msgMode == MSGMODE_TEXT_CLOSING && thisx->params == 0x00C0 && talked == true) {
+		// TODO: Make Alpha go transparent
+		NEXT_ENTRANCE_TRANS(play, ENTR_LOST_FOREST_0);
+		talked = false;
+	}
 }
 
 void Tele_Draw(Actor* thisx, PlayState* play) {
@@ -87,7 +98,9 @@ s16 Tele_updateTalkState(PlayState* play, Actor* thisx) {
         case TEXT_STATE_DONE:
             thisx->textId = TELE_INFO_TEXT_ID;
             talkState = NPC_TALK_STATE_IDLE;
+			talked = true;
             break;
+		
         default:
 			thisx->textId = play->msgCtx.textId;
             break;
