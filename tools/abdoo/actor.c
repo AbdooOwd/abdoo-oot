@@ -6,6 +6,8 @@
 
 #include "z_ACTORLOWER.h"
 
+#define FLAGS	0
+
 void ACTORFILLER_Init(Actor* thisx, PlayState* play);
 void ACTORFILLER_Destroy(Actor* thisx, PlayState* play);
 void ACTORFILLER_Update(Actor* thisx, PlayState* play);
@@ -14,7 +16,7 @@ void ACTORFILLER_Draw(Actor* thisx, PlayState* play);
 const ActorInit ACTORFILLER_InitVars = {
 	ACTOR_ACTORUPPER,
 	ACTORCAT_BG,
-	0,	// no flags
+	FLAGS,	// no flags
 	OBJECT_GAMEPLAY_KEEP,
 	sizeof(ACTORFILLER),
 	ACTORFILLER_Init,
