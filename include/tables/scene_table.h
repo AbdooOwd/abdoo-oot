@@ -128,3 +128,4 @@
 #endif
 
 DEFINE_SCENE(playground_scene, none, SCENE_PLAYGROUND, SDC_DEFAULT, 0, 0)
+DEFINE_SCENE(lost_forest_scene, none, SCENE_LOST_FOREST, SDC_DEFAULT, 0, 0)
