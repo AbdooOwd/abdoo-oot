@@ -52,7 +52,7 @@ void TheDev_Update(Actor* thisx, PlayState* play) {
 
 	// Debug_Print(1, "Home POS: %f", this->actor.home.pos.y);
 	// Debug_Print(2, "Cur POS: %f", this->actor.world.pos.y);
-	Debug_Print(1, "Cur CamFuncID: 0x%x", Camera_getFuncIdx(GET_ACTIVE_CAM(play)));
+	// Debug_Print(3, "Cur CamFuncID: 0x%x", Camera_getFuncIdx(GET_ACTIVE_CAM(play)));
 
 	// float
 	this->actor.world.pos.y = this->actor.home.pos.y +  this->amplitude * sinf(this->time);

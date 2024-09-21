@@ -3540,8 +3540,6 @@ void Message_switchSpeaker(PlayState* play) {
         camera->targetPosRot.pos = play->msgCtx.talkActor->focus.pos;
     }
 
-    Debug_Print(2, "msgMode: %i", play->msgCtx.msgMode);
-
     // don't really need checks... right?
     // if (player->talkActor != NULL && play->msgCtx.msgMode == MSGMODE_TEXT_AWAIT_NEXT)
         Camera_setFuncId(camera, CAM_FUNC_LOOKAT);
