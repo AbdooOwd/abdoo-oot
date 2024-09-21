@@ -57,3 +57,6 @@
 
 -	`ACTOR_FLAG_23` means it's a prop actor that can only thrown.
 	Cannot be dropped. Only throw.
+
+-	`ACTOR_FLAG_29` is a flag I added for prop actors that can only
+	be dropped/put down. Cannot be thrown.

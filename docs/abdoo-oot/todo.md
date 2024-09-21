@@ -32,7 +32,7 @@
 -	Play music in-game.
 
 -	Make infiltration/sneaky mission [ ]
--	Make a barrel in which Link can hide [ ]
+-	Make a barrel in which Link can hide [X]
 	-	Make barrel be actor instead of DynaPoly [ ]
 	-	Make barrel use a CollisionCylinder [ ]
 
