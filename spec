@@ -4089,6 +4089,13 @@ endseg
 /* ACTORS FOR PYTHON */
 
 beginseg
+	name "ovl_Patrol_Guard"
+	compress
+	include "$(BUILD_DIR)/src/overlays/actors/ovl_Patrol_Guard/z_patrol_guard.o"
+	include "$(BUILD_DIR)/src/overlays/actors/ovl_Patrol_Guard/ovl_Patrol_Guard_reloc.o"
+endseg
+
+beginseg
 	name "ovl_Barrel"
 	compress
 	include "$(BUILD_DIR)/src/overlays/actors/ovl_Barrel/z_barrel.o"
@@ -7184,6 +7191,15 @@ beginseg
 endseg
 
 /* OBJECT FOR PYTHON */
+
+beginseg
+	name "object_joe"
+	compress
+	romalign 0x1000
+	include "$(BUILD_DIR)/assets/objects/object_joe/gJoeDL.o"
+	number 6
+endseg
+
 
 beginseg
 	name "object_barrel"
