@@ -4,8 +4,8 @@
 /**
  * Header Child Day (Default)
 */
-#define LENGTH_LOST_FOREST_ROOM_0_HEADER00_OBJECTLIST 1
-#define LENGTH_LOST_FOREST_ROOM_0_HEADER00_ACTORLIST 3
+#define LENGTH_LOST_FOREST_ROOM_0_HEADER00_OBJECTLIST 2
+#define LENGTH_LOST_FOREST_ROOM_0_HEADER00_ACTORLIST 4
 SceneCmd lost_forest_room_0_header00[] = {
     SCENE_CMD_ROOM_SHAPE(&lost_forest_room_0_shapeHeader),
     SCENE_CMD_ECHO_SETTINGS(0x00),
@@ -19,6 +19,7 @@ SceneCmd lost_forest_room_0_header00[] = {
 
 s16 lost_forest_room_0_header00_objectList[LENGTH_LOST_FOREST_ROOM_0_HEADER00_OBJECTLIST] = {
     OBJECT_BARREL,
+    OBJECT_JOE,
 };
 
 ActorEntry lost_forest_room_0_header00_actorList[LENGTH_LOST_FOREST_ROOM_0_HEADER00_ACTORLIST] = {
@@ -44,6 +45,14 @@ ActorEntry lost_forest_room_0_header00_actorList[LENGTH_LOST_FOREST_ROOM_0_HEADE
         /* Position   */ { -450, -120, -140 },
         /* Rotation   */ { DEG_TO_BINANG(0.000), DEG_TO_BINANG(0.000), DEG_TO_BINANG(0.000) },
         /* Parameters */ 0x00C0
+    },
+
+    // Custom Actor
+    {
+        /* Actor ID   */ ACTOR_PATROL_GUARD,
+        /* Position   */ { 0, -120, -240 },
+        /* Rotation   */ { DEG_TO_BINANG(0.000), DEG_TO_BINANG(0.000), DEG_TO_BINANG(0.000) },
+        /* Parameters */ 0x0000
     },
 };
 
