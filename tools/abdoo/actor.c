@@ -1,5 +1,5 @@
 /*
- * File: z_ACTORFILLER.c
+ * File: z_ACTOR_FILLER.c
  * Overlay: ovl_ACTORFILLER
  * Description: filler filler
  */
@@ -13,7 +13,7 @@ void ACTORFILLER_Destroy(Actor* thisx, PlayState* play);
 void ACTORFILLER_Update(Actor* thisx, PlayState* play);
 void ACTORFILLER_Draw(Actor* thisx, PlayState* play);
 
-const ActorInit ACTORFILLER_InitVars = {
+const ActorInit ACTOR_FILLER_InitVars = {
 	ACTOR_ACTORUPPER,
 	ACTORCAT_BG,
 	FLAGS,	// no flags

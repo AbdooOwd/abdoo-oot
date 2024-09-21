@@ -18,7 +18,8 @@ def fillSource(actor_name: str, file_path: str):
 	
 	with open(file_path + '.c', 'w') as file:
 		file.write(
-			temp.replace('ACTORFILLER', actor_name)
+			temp.replace('ACTORFILLER', actor_name.replace("_", ""))
+				.replace('ACTOR_FILLER', actor_name)
 				.replace('ACTORUPPER', actor_name.upper())
 				.replace('ACTORLOWER', actor_name.lower())
 		)
