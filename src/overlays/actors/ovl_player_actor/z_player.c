@@ -29,6 +29,8 @@
 // This is called "adjusted" for now.
 #define PLAYER_ANIM_ADJUSTED_SPEED (2.0f / 3.0f)
 
+#define PLAYER_HIDDEN_SPEED_MOD     2.0f
+
 typedef struct {
     /* 0x00 */ u8 itemId;
     /* 0x01 */ u8 field; // various bit-packed data
@@ -3012,8 +3014,11 @@ void func_80835688(Player* this, PlayState* play) {
     }
 }
 
+/* handles lifting continuously */
 s32 Player_UpperAction_CarryActor(Player* this, PlayState* play) {
     Actor* heldActor = this->heldActor;
+
+    // Debug_Print(5, "Lifting");
 
     if (heldActor == NULL) {
         func_80834644(play, this);
@@ -3027,6 +3032,8 @@ s32 Player_UpperAction_CarryActor(Player* this, PlayState* play) {
         if (LinkAnimation_Update(play, &this->upperSkelAnime)) {
             LinkAnimation_PlayLoop(play, &this->upperSkelAnime, &gPlayerAnim_link_normal_carryB_wait);
         }
+
+        // Here is handled lifting based on actor
 
         if ((heldActor->id == ACTOR_EN_NIW) && (this->actor.velocity.y <= 0.0f)) {
             this->actor.minVelocityY = -2.0f;
@@ -5188,6 +5195,7 @@ int func_8083A0D4(Player* this) {
     return (this->interactRangeActor != NULL) && (this->heldActor == NULL);
 }
 
+/* handles lifted/carried object */
 void func_8083A0F4(PlayState* play, Player* this) {
     if (func_8083A0D4(this)) {
         Actor* interactRangeActor = this->interactRangeActor;
@@ -6029,6 +6037,7 @@ s32 Player_ActionChange_6(Player* this, PlayState* play) {
     return 0;
 }
 
+/* shield */
 s32 Player_ActionChange_11(Player* this, PlayState* play) {
     LinkAnimationHeader* anim;
     f32 frame;
@@ -6036,6 +6045,10 @@ s32 Player_ActionChange_11(Player* this, PlayState* play) {
     if ((play->shootingGalleryStatus == 0) && (this->currentShield != PLAYER_SHIELD_NONE) &&
         CHECK_BTN_ALL(sControlInput->cur.button, BTN_R) &&
         (Player_IsChildWithHylianShield(this) || (!func_80833B2C(this) && (this->unk_664 == NULL)))) {
+        
+        if (this->hidden) {
+            return 0;
+        }
 
         func_80832318(this);
         Player_DetachHeldActor(play, this);
@@ -6948,22 +6961,35 @@ void func_8083EA94(Player* this, PlayState* play) {
 }
 
 s32 func_8083EAF0(Player* this, Actor* actor) {
-    if ((actor != NULL) && !(actor->flags & ACTOR_FLAG_23) &&
-        ((this->speedXZ < 1.1f) || (actor->id == ACTOR_EN_BOM_CHU))) {
+    if ((actor != NULL) && (!(actor->flags & ACTOR_FLAG_23) || 
+    (actor->flags & ACTOR_FLAG_29)) &&
+    ((this->speedXZ < 1.1f) || (actor->id == ACTOR_EN_BOM_CHU))) {
         return 0;
+    } else {
+        if (!(actor->flags & ACTOR_FLAG_29))
+            return 1;
+        else
+            return 0;
     }
-
-    return 1;
+    // TODO: too much code, gotta simplify it
 }
 
+/* handles putting down / throwing */
 s32 Player_ActionChange_9(Player* this, PlayState* play) {
     if ((this->stateFlags1 & PLAYER_STATE1_11) && (this->heldActor != NULL) &&
         CHECK_BTN_ANY(sControlInput->press.button, BTN_A | BTN_B | BTN_CLEFT | BTN_CRIGHT | BTN_CDOWN)) {
+        if (this->heldActor->id == ACTOR_BARREL) {
+            this->heldActor->shape.yOffset = 0;
+            this->hidden = false;
+        }
+        
         if (!func_80835644(play, this, this->heldActor)) {
             if (!func_8083EAF0(this, this->heldActor)) {
+                // put down
                 Player_SetupAction(play, this, Player_Action_808464B0, 1);
                 Player_AnimPlayOnce(play, this, GET_PLAYER_ANIM(PLAYER_ANIMGROUP_put, this->modelAnimType));
             } else {
+                // throw
                 func_8083EA94(this, play);
             }
         }
@@ -9106,6 +9132,7 @@ static AnimSfxEntry D_8085460C[] = {
     { 0, -ANIMSFX_DATA(ANIMSFX_TYPE_5, 18) },
 };
 
+/* Link Rolling */
 void Player_Action_80844708(Player* this, PlayState* play) {
     Actor* cylinderOc;
     s32 interruptResult;
@@ -9718,8 +9745,11 @@ void Player_Action_80845EF8(Player* this, PlayState* play) {
     }
 }
 
+/* Handles Picking up */
 void Player_Action_80846050(Player* this, PlayState* play) {
     func_8083721C(this);
+
+    // Debug_Print(1, "Picking up...");
 
     if (LinkAnimation_Update(play, &this->skelAnime)) {
         func_80839F90(this, play);
@@ -9735,6 +9765,12 @@ void Player_Action_80846050(Player* this, PlayState* play) {
                 ~(BGCHECKFLAG_GROUND | BGCHECKFLAG_GROUND_TOUCH | BGCHECKFLAG_GROUND_LEAVE | BGCHECKFLAG_WALL |
                   BGCHECKFLAG_CEILING | BGCHECKFLAG_WATER | BGCHECKFLAG_WATER_TOUCH | BGCHECKFLAG_GROUND_STRICT);
             this->unk_3BC.y = interactRangeActor->shape.rot.y - this->actor.shape.rot.y;
+        }
+
+        if ((interactRangeActor->id == ACTOR_BARREL) && (interactRangeActor->params == 0x00C0)) {
+            /* fun fact! making the barrel too low makes Link launch into the sky like a rocket! */
+            // interactRangeActor->shape.yOffset = -(Player_GetHeight(this) * 48);
+            this->hidden = true;
         }
     } else {
         Math_ScaledStepToS(&this->unk_3BC.y, 0, 4000);
@@ -9828,6 +9864,7 @@ void Player_Action_80846408(Player* this, PlayState* play) {
     }
 }
 
+/* putting down stuff */
 void Player_Action_808464B0(Player* this, PlayState* play) {
     func_8083721C(this);
 
@@ -10228,6 +10265,9 @@ void Player_Init(Actor* thisx, PlayState* play2) {
 
     Map_SavePlayerInitialInfo(play);
     MREG(64) = 0;
+
+    /* abdoo-oot */
+    this->hidden = false;
 }
 
 void func_808471F4(s16* pValue) {
@@ -10323,6 +10363,7 @@ void Player_UpdateInterface(PlayState* play, Player* this) {
                     } else if ((interactRangeActor->id == ACTOR_BG_TOKI_SWD) && LINK_IS_ADULT) {
                         doAction = DO_ACTION_DROP;
                     } else {
+                        // ready to pick up "grabbable" here btw
                         doAction = DO_ACTION_GRAB;
                     }
                 } else if (!sp1C && (this->stateFlags2 & PLAYER_STATE2_0)) {
@@ -11279,6 +11320,18 @@ void Player_UpdateCommon(Player* this, PlayState* play, Input* input) {
                     func_800F4138(&this->actor.projectedPos, NA_SE_PL_SLIP_LEVEL - SFX_FLAG, this->actor.speed);
                 }
             } else {
+                // Debug_Print(4, "stickX: %i - stickY: %i", sControlInput->rel.stick_x, sControlInput->rel.stick_y);
+                if (this->hidden) {
+                    if ((this->speedXZ != 0.0f && this->actor.speed != 0.0f) &&
+                    (sControlInput->rel.stick_x != 0 || sControlInput->rel.stick_y != 0)) {
+                        // TODO: using the joystick is hardcoded and dirty. find another solution!
+                        this->speedXZ = 2.0f;
+                        this->heldActor->shape.yOffset = -(Player_GetHeight(this) * 60.0f);
+                    } else {
+                        this->heldActor->shape.yOffset = -(Player_GetHeight(this) * 70.0f);
+                    }
+                }
+
                 this->actor.speed = this->speedXZ;
                 this->actor.world.rot.y = this->yaw;
             }

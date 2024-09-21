@@ -4089,6 +4089,14 @@ endseg
 /* ACTORS FOR PYTHON */
 
 beginseg
+	name "ovl_Barrel"
+	compress
+	include "$(BUILD_DIR)/src/overlays/actors/ovl_Barrel/z_barrel.o"
+	include "$(BUILD_DIR)/src/overlays/actors/ovl_Barrel/ovl_Barrel_reloc.o"
+endseg
+
+
+beginseg
 	name "ovl_Tele"
 	compress
 	include "$(BUILD_DIR)/src/overlays/actors/ovl_Tele/z_tele.o"
@@ -7176,6 +7184,16 @@ beginseg
 endseg
 
 /* OBJECT FOR PYTHON */
+
+beginseg
+	name "object_barrel"
+	compress
+	romalign 0x1000
+	include "$(BUILD_DIR)/assets/objects/object_barrel/gBarrelDL.o"
+	include "$(BUILD_DIR)/assets/objects/object_barrel/barrelCol_collision.o"
+	number 6
+endseg
+
 
 beginseg
 	name "object_tele"
@@ -12323,5 +12341,21 @@ beginseg
 	compress
 	romalign 0x1000
 	include "$(BUILD_DIR)/assets/scenes/playground/playground_room_0.o"
+	number 3
+endseg
+
+beginseg
+	name "lost_forest_scene"
+	compress
+	romalign 0x1000
+	include "$(BUILD_DIR)/assets/scenes/overworld/lost_forest/lost_forest_scene.o"
+	number 2
+endseg
+
+beginseg
+	name "lost_forest_room_0"
+	compress
+	romalign 0x1000
+	include "$(BUILD_DIR)/assets/scenes/overworld/lost_forest/lost_forest_room_0.o"
 	number 3
 endseg
