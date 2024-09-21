@@ -414,3 +414,5 @@
 /* 0x0194 */ DEFINE_OBJECT(object_trololo, OBJECT_TROLOLO)
 /* 0x0195 */ DEFINE_OBJECT(object_tele, OBJECT_TELE)
 /* 0x0196 */ DEFINE_OBJECT(object_barrel, OBJECT_BARREL)
+
+			 DEFINE_OBJECT(object_joe, OBJECT_JOE)
