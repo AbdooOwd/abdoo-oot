@@ -6,6 +6,7 @@
 #if INCLUDE_EXAMPLE_SCENE
 #include "assets/scenes/example/example_scene.h"
 #endif
+#include "assets/scenes/playground/playground_scene.h"
 
 #include "z64frame_advance.h"
 
@@ -1082,6 +1083,8 @@ skip:
         }
     }
 
+    Debug_Print_Draw(this->state.gfxCtx);
+    
 #if INCLUDE_EXAMPLE_SCENE
     if (this->sceneId == SCENE_EXAMPLE && CHECK_BTN_ALL(this->state.input[0].cur.button, BTN_L | BTN_R) &&
         CHECK_BTN_ALL(this->state.input[0].press.button, BTN_A) && !Play_InCsMode(this)) {
@@ -1089,8 +1092,6 @@ skip:
         gSaveContext.cutsceneTrigger = 1;
     }
 #endif
-
-    Debug_Print_Draw(this->state.gfxCtx);
 }
 
 void Play_DrawOverlayElements(PlayState* this) {
