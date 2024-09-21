@@ -46,3 +46,14 @@
 	*(Or use my macro `SET_NEXt_ENTRANCE`)*.
 
 -	29 test entrances.
+
+-	`OBJ_TSUBO` *(ie. pot)* can only be used with `gameplay_dangeon_keep` alias setting
+	the scene as a dungeon.
+
+-	`Actor_OfferCarry` can be used to pick up a prop.
+
+-	I might use a dirty trick to make the barrel be on Link:
+	Offset the Barrel down in blender lol (set new origin).
+
+-	`ACTOR_FLAG_23` means it's a prop actor that can only thrown.
+	Cannot be dropped. Only throw.

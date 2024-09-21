@@ -30,3 +30,10 @@
 -	Learn about OoT's filesystem.
 -	Make an Audio driver so it can play audio files.
 -	Play music in-game.
+
+-	Make infiltration/sneaky mission [ ]
+-	Make a barrel in which Link can hide [ ]
+	-	Make barrel be actor instead of DynaPoly [ ]
+	-	Make barrel use a CollisionCylinder [ ]
+
+-	Understand the code for the pot, kibako and barrel [ ]
