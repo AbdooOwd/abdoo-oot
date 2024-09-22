@@ -73,7 +73,6 @@ void Tele_Update(Actor* thisx, PlayState* play) {
 	);
 	
 	if (play->msgCtx.msgMode == MSGMODE_TEXT_CLOSING && thisx->params == 0x00C0 && talked == true) {
-		// TODO: Make Alpha go transparent
 		NEXT_ENTRANCE_TRANS(play, ENTR_LOST_FOREST_0);
 		talked = false;
 	}

@@ -6961,6 +6961,16 @@ void func_8083EA94(Player* this, PlayState* play) {
 }
 
 s32 func_8083EAF0(Player* this, Actor* actor) {
+
+    /** Explanation:
+     * - If actor has ACTOR_FLAG_29, player can only drop the carried actor.
+     * The player cannot throw it.
+     * - This code checks if the Actor should be throw'd or dropped.
+     */
+
+    // TODO: too much code, gotta simplify it
+    // Problem: Code too complicated to check if should only be dropped
+
     if ((actor != NULL) && (!(actor->flags & ACTOR_FLAG_23) || 
     (actor->flags & ACTOR_FLAG_29)) &&
     ((this->speedXZ < 1.1f) || (actor->id == ACTOR_EN_BOM_CHU))) {
@@ -6971,7 +6981,6 @@ s32 func_8083EAF0(Player* this, Actor* actor) {
         else
             return 0;
     }
-    // TODO: too much code, gotta simplify it
 }
 
 /* handles putting down / throwing */
