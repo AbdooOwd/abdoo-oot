@@ -14,6 +14,8 @@ extern ActorEntry lost_forest_scene_header00_playerEntryList[];
 extern Spawn lost_forest_scene_header00_entranceList[];
 extern u16 lost_forest_scene_header00_exitList[1];
 extern EnvLightSettings lost_forest_scene_header00_lightSettings[4];
+extern Vec3s lost_forest_scene_header00_pathwayList00[];
+extern Path lost_forest_scene_header00_pathway[1];
 extern CutsceneData welcome_CS[];
 extern CollisionHeader lost_forest_scene_collisionHeader;
 extern WaterBox lost_forest_scene_waterBoxes[1];

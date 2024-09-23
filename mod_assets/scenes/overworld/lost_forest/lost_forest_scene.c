@@ -11,9 +11,10 @@ SceneCmd lost_forest_scene_header00[] = {
     SCENE_CMD_ROOM_LIST(1, lost_forest_scene_roomList),
     SCENE_CMD_SOUND_SETTINGS(0x00, 0x00, NA_BGM_FIELD_LOGIC),
     SCENE_CMD_MISC_SETTINGS(0x00, 0x00),
-    SCENE_CMD_SPECIAL_FILES(0x00, OBJECT_GAMEPLAY_DANGEON_KEEP),
+    SCENE_CMD_SPECIAL_FILES(0x00, OBJECT_GAMEPLAY_FIELD_KEEP),
     SCENE_CMD_SKYBOX_SETTINGS(0x01, 0x00, LIGHT_MODE_TIME),
     SCENE_CMD_ENV_LIGHT_SETTINGS(4, lost_forest_scene_header00_lightSettings),
+    SCENE_CMD_PATH_LIST(lost_forest_scene_header00_pathway),
     SCENE_CMD_ENTRANCE_LIST(lost_forest_scene_header00_entranceList),
     SCENE_CMD_SPAWN_LIST(1, lost_forest_scene_header00_playerEntryList),
     SCENE_CMD_EXIT_LIST(lost_forest_scene_header00_exitList),
@@ -89,6 +90,17 @@ EnvLightSettings lost_forest_scene_header00_lightSettings[4] = {
         ((1 << 10) | 992),         // Blend Rate & Fog Near
         12800,                     // Fog Far
     },
+};
+
+Vec3s lost_forest_scene_header00_pathwayList00[] = {
+    {     0,  -110,  -240 },
+    {     0,  -110,  -530 },
+    {   170,  -110,  -480 },
+    {   110,  -110,  -340 },
+};
+
+Path lost_forest_scene_header00_pathway[1] = {
+    { ARRAY_COUNTU(lost_forest_scene_header00_pathwayList00), lost_forest_scene_header00_pathwayList00 },
 };
 
 CutsceneData welcome_CS[] = {
