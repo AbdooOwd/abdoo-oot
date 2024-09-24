@@ -52,11 +52,13 @@
 
 -	`Actor_OfferCarry` can be used to pick up a prop.
 
--	I might use a dirty trick to make the barrel be on Link:
-	Offset the Barrel down in blender lol (set new origin).
-
 -	`ACTOR_FLAG_23` means it's a prop actor that can only thrown.
 	Cannot be dropped. Only throw.
 
 -	`ACTOR_FLAG_29` is a flag I added for prop actors that can only
 	be dropped/put down. Cannot be thrown.
+
+-	When using `Math_SmoothStepTo`, setting the `minStep` to `0` might save
+	you a BUNCH of time *(it sometimes causes the transition to go **COOCOO**)*.
+
+-	Default audio volume *(I think)* is `0x7F`.

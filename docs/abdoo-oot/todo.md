@@ -37,3 +37,15 @@
 	-	Make barrel use a CollisionCylinder [ ]
 
 -	Understand the code for the pot, kibako and barrel [ ]
+
+-	**Patrol Guard**
+	-	When Link is hidden but moving, make `camera->at` the guard's position.
+		Start a timer, then once finished, make guard patrol back and reset `camera->at`.
+	-	Make good Camera Effects *(same as I wanted, but less "junky" and "broken")*.
+
+## Funny
+
+-	Have a time in the scenario where there's a fake death screen.
+	The music plays normally, Link falls on the ground. Then suddenly: the music stops,
+	Navi might tell us something or Link notices something then wakes up.
+	It would be both funny and *"epok"*.
