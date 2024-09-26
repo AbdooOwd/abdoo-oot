@@ -915,6 +915,9 @@ typedef struct Player {
     /* 0x0A87 */ u8 unk_A87;
     /* 0x0A88 */ Vec3f unk_A88; // previous body part 0 position
     /* 0x0A94 */ bool hidden;
-} Player; // size = 0xA95
+    /* 0x0A95 */ union {
+        u8 spottedCount;    // used for guard spotting Link
+    } guardStuff; // size = 0x1
+} Player; // size = 0xA96
 
 #endif

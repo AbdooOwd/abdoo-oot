@@ -9,6 +9,7 @@ struct PatrolGuard;
 typedef void (*PatrolGuardActionFunc)(struct PatrolGuard*, PlayState*);
 typedef struct PatrolGuard {
 	Actor actor;
+	Player* playerPtr;
 	PatrolGuardActionFunc actionFunc;
 	u16 patrolTimer;
 	f32 moveSpeed;
@@ -16,6 +17,7 @@ typedef struct PatrolGuard {
 	s16 waypoint;
 	bool goForward;
 	bool spottedPlayer;
+	bool bgmLowered;
 	union {
 		u8 waitTime;
 		u8 type;

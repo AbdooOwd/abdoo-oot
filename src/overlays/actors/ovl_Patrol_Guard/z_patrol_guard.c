@@ -25,6 +25,8 @@
 #define GUARD_BGM_FADE_DURATION	0x17
 #define GUARD_SMOOTH_STEP		3400
 
+#define GUARD_SEES_PLAYER(this)	(Actor_IsFacingPlayer(&this->actor, DEG_TO_BINANG(45)) && this->actor.xzDistToPlayer < 500.0f)
+
 void PatrolGuard_Init(Actor* thisx, PlayState* play);
 void PatrolGuard_Destroy(Actor* thisx, PlayState* play);
 void PatrolGuard_Update(Actor* thisx, PlayState* play);
@@ -53,10 +55,9 @@ const ActorInit Patrol_Guard_InitVars = {
 	PatrolGuard_Draw
 };
 
-bool bgmLowered = false;
-
 void PatrolGuard_Init(Actor* thisx, PlayState* play) {
 	PatrolGuard* this = (PatrolGuard*) thisx;
+	Player* player = GET_PLAYER(play);
 
 	// TODO: If I make Guards be able to climb small heights,
 	// -> this focus-Y-pos setting will be useless
@@ -72,6 +73,10 @@ void PatrolGuard_Init(Actor* thisx, PlayState* play) {
 	this->moveSpeed = GUARD_SPEED;
 	this->waypoint = 0;
 	this->goForward = true;
+	this->bgmLowered = false;
+
+	this->playerPtr = player;
+	this->playerPtr->guardStuff.spottedCount = 0;
 
 	PatrolGuard_SetupWait(this);
 }
@@ -84,19 +89,18 @@ void PatrolGuard_Destroy(Actor* thisx, PlayState* play) {
 void PatrolGuard_Update(Actor* thisx, PlayState* play) {
 	PatrolGuard* this = (PatrolGuard*) thisx;
 
-	/* Do this if guards become able to climb small heights
-	this->actor.focus.pos.y = this->actor.world.pos.y + JOES_HEIGHT;
-	*/
 	this->actor.focus.pos.x = this->actor.world.pos.x;
 	this->actor.focus.pos.z = this->actor.world.pos.z;
 
-	/**
-	 * Might be better to do `this->actor.focus.pos = this->actor.world.pos`
-	 * then increment Focus Y pos by joe's height.
-	*/
+	this->actor.focus.pos = this->actor.world.pos;
+	this->actor.focus.pos.y += JOES_HEIGHT;
 
-	this->spottedPlayer = Actor_IsFacingPlayer(&this->actor, DEG_TO_BINANG(45)) && this->actor.xzDistToPlayer < 500.0f;
 	PatrolGuard_checkPlayer(this, play);
+
+	//? doing `x == 0 || x == 2` faster than `x % 2 == 0`?
+	// if type allows camera effects
+	if (this->guardData.type % 2 == 0)
+		PatrolGuard_cameraEffects(this, play);
 	
 	this->actionFunc(this, play);
 }
@@ -136,7 +140,6 @@ void PatrolGuard_Patrol(PatrolGuard* this, PlayState* play) {
 	Path* path = &play->pathList[this->path];
 	Vec3s* pointPos = SEGMENTED_TO_VIRTUAL(path->points);	// TODO: should try understaning that...
 	Vec3f* actorPos = &this->actor.world.pos;
-	Player* player = GET_PLAYER(play);	// TODO: find another way to access `->hidden`
 	f32 pathDiffX;
 	f32 pathDiffZ;
 
@@ -162,7 +165,7 @@ void PatrolGuard_Patrol(PatrolGuard* this, PlayState* play) {
 
 	// Debug_Print(1, "Path: %d / Waypoint: %d", this->path, this->waypoint);
 
-	if (!this->spottedPlayer || player->hidden) {
+	if (!this->spottedPlayer || this->playerPtr->hidden) {
 		Math_SmoothStepToS(&this->actor.shape.rot.y, 
 							RAD_TO_BINANG(Math_FAtan2F(pathDiffX, pathDiffZ)), 3, GUARD_SMOOTH_STEP, 0);
 		Math_SmoothStepToF(&actorPos->x, pointPos->x, 3.0f, this->moveSpeed, 0.0f);
@@ -179,35 +182,32 @@ void PatrolGuard_Patrol(PatrolGuard* this, PlayState* play) {
 
 // Does actions based on if and how guard sees player
 void PatrolGuard_checkPlayer(PatrolGuard* this, PlayState* play) {
-	// TODO: Tidy if statements to separately manage cam effects and game logic
+	bool guardSeesPlayer = GUARD_SEES_PLAYER(this);
 
-	// TODO: now that i think of it, playing music is kinda useless. more useless code, that's it.
-	// -> but f* this, it's fun (but i love optimization).
-
-	// TODO: don't play music if already playing.
-	// -> if 2 guards spot player at the same time, music will play twice (?)
-
-	if (this->spottedPlayer && !bgmLowered) {
-		Audio_SetMainBgmVolume(0x10, GUARD_BGM_FADE_DURATION);
-		SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_SUB, GUARD_BGM_FADE_DURATION, 0, NA_BGM_ENEMY);
-		bgmLowered = true;
-	} else if (!this->spottedPlayer && bgmLowered) {
-		SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_SUB, GUARD_BGM_FADE_DURATION, 0, NA_BGM_NO_MUSIC);
-		Audio_SetMainBgmVolume(0x7F, GUARD_BGM_FADE_DURATION);
-		bgmLowered = false;
+	if (!this->spottedPlayer && guardSeesPlayer) {
+		this->playerPtr->guardStuff.spottedCount++;
+		this->spottedPlayer = true;
+	} else if (this->spottedPlayer && !guardSeesPlayer) {
+		this->playerPtr->guardStuff.spottedCount--;
+		this->spottedPlayer = false;
 	}
 
-	// TODO: is doing `x == 0 || x == 2` faster than `x % 2 == 0`?
-
-	// if type allows camera effects
-	if (this->guardData.type == 0 || this->guardData.type == 2)
-		PatrolGuard_cameraEffects(this, play);
+	if (this->playerPtr->guardStuff.spottedCount != 0 && !this->bgmLowered) {
+		Audio_SetMainBgmVolume(0x10, GUARD_BGM_FADE_DURATION);
+		SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_SUB, GUARD_BGM_FADE_DURATION, 0, NA_BGM_ENEMY);
+		this->bgmLowered = true;
+	} else if (this->playerPtr->guardStuff.spottedCount == 0 && this->bgmLowered) {
+		SEQCMD_PLAY_SEQUENCE(SEQ_PLAYER_BGM_SUB, GUARD_BGM_FADE_DURATION, 0, NA_BGM_NO_MUSIC);
+		Audio_SetMainBgmVolume(0x7F, GUARD_BGM_FADE_DURATION);
+		this->bgmLowered = false;
+	}
 }
 
 void PatrolGuard_cameraEffects(PatrolGuard* this, PlayState* play) {
 	Camera* camera = GET_ACTIVE_CAM(play);
-	Player* player = GET_PLAYER(play);
 	f32 targetFov;
+
+	// Note: this camera function is COMPLETE MESS.
 
 	// TODO: TOO MUCH IF STATEMENTS! AND THEY'RE TOO COMPLICATED!
 	// -> I'M SURE IT CAN BE OPTIMIZED AND TIDIED!
@@ -233,19 +233,21 @@ void PatrolGuard_cameraEffects(PatrolGuard* this, PlayState* play) {
 		// TODO: Optimize. Runs every frame (efficient, but can be enhanced)
 
 		// fov effect
-		if (player->hidden) {
+		if (this->playerPtr->hidden) {
 			targetFov = 75.0f;
 			if (this->actor.xzDistToPlayer < 150.0f) {
-				camera->dist = OLib_Vec3fDist(&camera->at, &player->actor.world.pos) * 1.5f;
+				camera->dist = OLib_Vec3fDist(&camera->at, &this->playerPtr->actor.world.pos) * 1.5f;
 			} else {
-				camera->dist = OLib_Vec3fDist(&camera->at, &player->actor.world.pos) * 1.2f;
+				camera->dist = OLib_Vec3fDist(&camera->at, &this->playerPtr->actor.world.pos) * 1.2f;
 			}
-			/*camera->eyeNext.y = player->actor.world.pos.y + 200;
+			/*
+			camera->eyeNext.y = player->actor.world.pos.y + 200;
 			camera->eyeNext.x = player->actor.world.pos.x;
-			camera->eyeNext.z = player->actor.world.pos.z;*/
+			camera->eyeNext.z = player->actor.world.pos.z;
+			*/
 		} else {
 			targetFov = 86.0f;
-			camera->dist = OLib_Vec3fDist(&camera->at, &player->actor.world.pos);
+			camera->dist = OLib_Vec3fDist(&camera->at, &this->playerPtr->actor.world.pos);
 		}
 
 		camera->fov = Camera_LERPCeilF(targetFov, camera->fov, camera->fovUpdateRate * 2, 1.0f);
