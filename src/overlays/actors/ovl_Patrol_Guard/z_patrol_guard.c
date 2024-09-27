@@ -59,10 +59,6 @@ void PatrolGuard_Init(Actor* thisx, PlayState* play) {
 	PatrolGuard* this = (PatrolGuard*) thisx;
 	Player* player = GET_PLAYER(play);
 
-	// TODO: If I make Guards be able to climb small heights,
-	// -> this focus-Y-pos setting will be useless
-	this->actor.focus.pos.y += JOES_HEIGHT;
-
 	this->guardData.pathId = this->actor.params & 0xFF;			 // 0x00FF
 	this->guardData.type = (this->actor.params >> 8) & 0xF0;	 // 0xF000
 	this->guardData.waitTime = (this->actor.params >> 8) & 0x0F; // 0x0F00
@@ -88,9 +84,6 @@ void PatrolGuard_Destroy(Actor* thisx, PlayState* play) {
 
 void PatrolGuard_Update(Actor* thisx, PlayState* play) {
 	PatrolGuard* this = (PatrolGuard*) thisx;
-
-	this->actor.focus.pos.x = this->actor.world.pos.x;
-	this->actor.focus.pos.z = this->actor.world.pos.z;
 
 	this->actor.focus.pos = this->actor.world.pos;
 	this->actor.focus.pos.y += JOES_HEIGHT;
@@ -120,7 +113,7 @@ void PatrolGuard_Wait(PatrolGuard* this, PlayState* play) {
 	// Debug_Print(0, "Timer: %.2f", this->patrolTimer / 10.0f);
 
 	// if 0xFF00 of actor params (time to wait) reached
-	if (this->patrolTimer >= this->guardData.waitTime * 10) {
+	if ((this->patrolTimer >= this->guardData.waitTime * 10) || this->spottedPlayer) {
 		PatrolGuard_SetupPatrol(this);
 	}
 	
@@ -144,14 +137,13 @@ void PatrolGuard_Patrol(PatrolGuard* this, PlayState* play) {
 	f32 pathDiffZ;
 
 	// TODO: optimize function
-	// TODO: optimize + clean + tidy if statement
 
 	// checks if we're at the end/start of the path (holy shii that's some messy code)
 	if (this->waypoint == path->count) {
 		// if is of type "Loop Path"
 		if (this->guardData.type == 0 || this->guardData.type == 1) {
 			this->waypoint = 0;
-		} else {
+		} else { // if is of type Limit Path
 			this->goForward = false;
 			this->waypoint -= 2;
 		}
@@ -166,22 +158,30 @@ void PatrolGuard_Patrol(PatrolGuard* this, PlayState* play) {
 	// Debug_Print(1, "Path: %d / Waypoint: %d", this->path, this->waypoint);
 
 	if (!this->spottedPlayer || this->playerPtr->hidden) {
-		Math_SmoothStepToS(&this->actor.shape.rot.y, 
-							RAD_TO_BINANG(Math_FAtan2F(pathDiffX, pathDiffZ)), 3, GUARD_SMOOTH_STEP, 0);
-		Math_SmoothStepToF(&actorPos->x, pointPos->x, 3.0f, this->moveSpeed, 0.0f);
-		Math_SmoothStepToF(&actorPos->z, pointPos->z, 3.0f, this->moveSpeed, 0.0f);
+		Math_ApproachS(&this->actor.shape.rot.y, 
+							RAD_TO_BINANG(Math_FAtan2F(pathDiffX, pathDiffZ)), 1, GUARD_SMOOTH_STEP);
+		Math_ApproachF(&actorPos->x, pointPos->x, 1.0f, this->moveSpeed);
+		Math_ApproachF(&actorPos->z, pointPos->z, 1.0f, this->moveSpeed);
 	} else {
-		Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 3, GUARD_SMOOTH_STEP, 0);
+		Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, GUARD_SMOOTH_STEP * 0xFF);
+		Math_ApproachF(&this->actor.world.pos.x, this->playerPtr->actor.world.pos.x, 1.0f, this->moveSpeed * 1.5);
+		Math_ApproachF(&this->actor.world.pos.z, this->playerPtr->actor.world.pos.z, 1.0f, this->moveSpeed * 1.5);
 		this->patrolTimer = 0;
 	}
 
-	if (((fabsf(pathDiffX) < 20.0f) && fabsf(pathDiffZ) < 20.0f) || (this->patrolTimer <= 0 && !this->spottedPlayer)) {
+	// guard waits if it is 5 units away from next path point
+	// -> or when the timer is set to 0 and the player hasn't been spotted
+	if (((fabsf(pathDiffX) < 5.0f) && fabsf(pathDiffZ) < 5.0f) || (this->patrolTimer <= 0 && !this->spottedPlayer)) {
 		PatrolGuard_SetupWait(this);
 	}
 }
 
 // Does actions based on if and how guard sees player
 void PatrolGuard_checkPlayer(PatrolGuard* this, PlayState* play) {
+	if (this->playerPtr->hidden) {
+		return;
+	}
+
 	bool guardSeesPlayer = GUARD_SEES_PLAYER(this);
 
 	if (!this->spottedPlayer && guardSeesPlayer) {
@@ -209,28 +209,14 @@ void PatrolGuard_cameraEffects(PatrolGuard* this, PlayState* play) {
 
 	// Note: this camera function is COMPLETE MESS.
 
-	// TODO: TOO MUCH IF STATEMENTS! AND THEY'RE TOO COMPLICATED!
-	// -> I'M SURE IT CAN BE OPTIMIZED AND TIDIED!
-	// -> THERE ARE IF STATEMENTS IN IF STATEMENTS.
-	// -> AND MOST OF THEM HAVE THE SAME CONDITIONS, JUST
-	// -> IN A DIFFERENT ORDER!!1!!1!
-
 	// TODO: Fix camera going coco crazy:
 	//	-	Camera dist when close and hidden (barrel)
 	//	-	Camera too close to barrel (can't see shii)
-
-	// Debug_Print(3, "camDist: %.2f | eyeY: %.2f", camera->dist, camera->eye.y);
-
-	
-	if (this->actor.xzDistToPlayer < 150.0f || this->spottedPlayer) {
-		camera->at = this->actor.world.pos;
-	}
 
 	// if guard is facing player and not too far away 
 	// from it then guard can see player
 	if (this->spottedPlayer) {
 		// TODO: Add "FOV Infiltration ON/OFF" in (future) settings for player to choose
-		// TODO: Optimize. Runs every frame (efficient, but can be enhanced)
 
 		// fov effect
 		if (this->playerPtr->hidden) {
@@ -240,14 +226,13 @@ void PatrolGuard_cameraEffects(PatrolGuard* this, PlayState* play) {
 			} else {
 				camera->dist = OLib_Vec3fDist(&camera->at, &this->playerPtr->actor.world.pos) * 1.2f;
 			}
-			/*
-			camera->eyeNext.y = player->actor.world.pos.y + 200;
-			camera->eyeNext.x = player->actor.world.pos.x;
-			camera->eyeNext.z = player->actor.world.pos.z;
-			*/
+			// camera->eyeNext.y = player->actor.world.pos.y + 200;
+			// camera->eyeNext.x = player->actor.world.pos.x;
+			// camera->eyeNext.z = player->actor.world.pos.z;
 		} else {
 			targetFov = 86.0f;
 			camera->dist = OLib_Vec3fDist(&camera->at, &this->playerPtr->actor.world.pos);
+			camera->at = this->actor.focus.pos;
 		}
 
 		camera->fov = Camera_LERPCeilF(targetFov, camera->fov, camera->fovUpdateRate * 2, 1.0f);
