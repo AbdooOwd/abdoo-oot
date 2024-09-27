@@ -11,6 +11,7 @@ typedef void (*BarrelActionFunc)(struct Barrel*, PlayState*);
 typedef struct Barrel {
 	DynaPolyActor dyna;
 	BarrelActionFunc actionFunc;
+	u8 type;
 } Barrel;
 
 #endif

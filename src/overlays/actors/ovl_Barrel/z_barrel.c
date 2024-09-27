@@ -46,6 +46,8 @@ void Barrel_Init(Actor* thisx, PlayState* play) {
 	DynaPolyActor_Init(&this->dyna, 0);
 	CollisionHeader_GetVirtual(&barrelCol_collisionHeader, &colHeader);
 	this->dyna.bgId = DynaPoly_SetBgActor(play, &play->colCtx.dyna, thisx, colHeader);
+
+	this->type = this->dyna.actor.params & 0xFF;
 	
 	if (!Barrel_SnapToFloor(this, play)) {
         Actor_Kill(&this->dyna.actor);
@@ -71,11 +73,6 @@ void Barrel_Update(Actor* thisx, PlayState* play) {
 	// Debug_Print(2, "Velocity: (%.2f, %.2f, %.2f)", playerVel->x, playerVel->y, playerVel->z);
 
 	this->actionFunc(this, play);
-
-	// Debug area!!!
-	if (this->dyna.actor.params == 0x01C0) {
-		Debug_Print(1, "Barrel Y pos: %f", this->dyna.actor.world.pos.y);
-	}
 }
 
 void Barrel_Draw(Actor* thisx, PlayState* play) {
@@ -94,7 +91,7 @@ void Barrel_Idle(Barrel* this, PlayState* play) {
 		// Debug_Print(3, "IM ADOPTED"); // lol
 		Barrel_SetupLiftedUp(this, play);
 	} else {
-		if (this->dyna.actor.xzDistToPlayer < 100.0f && (this->dyna.actor.params == 0x00C0 || this->dyna.actor.params == 0x01C0)) {
+		if (this->dyna.actor.xzDistToPlayer < 100.0f && this->type == 0xC0) {
 			Actor_OfferCarry(&this->dyna.actor, play);
 		}
 	}
