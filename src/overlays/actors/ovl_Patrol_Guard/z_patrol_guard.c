@@ -112,6 +112,10 @@ void PatrolGuard_SetupWait(PatrolGuard* this) {
 void PatrolGuard_Wait(PatrolGuard* this, PlayState* play) {
 	// Debug_Print(0, "Timer: %.2f", this->patrolTimer / 10.0f);
 
+	if (this->path == 0xFF) {
+		return;	// keep waiting... keep waiting forever...
+	}
+
 	// if 0xFF00 of actor params (time to wait) reached
 	if ((this->patrolTimer >= this->guardData.waitTime * 10) || this->spottedPlayer) {
 		PatrolGuard_SetupPatrol(this);
