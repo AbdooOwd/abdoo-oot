@@ -30,12 +30,18 @@ static const char* sLoadingMessages[] = {
     "Loading",
     "Now working",
     "Now creating",
+    "It's Cooking",
+    "Let'im cook",
     "It's not broken",
     "Coffee Break",
     "Please set B side",
     "Be patient, now",
     "Please wait just a minute",
     "Don't worry, don't worry. Take a break, take a break",
+    "Fun Fact: The N64's CPU is the NEC VR4300 running at 93.75 MHz",
+    "GO EAT COUSCOUS!",
+    "Fi Wlad Fayet Tel9ani m'spotti.",
+    "Hamoud Bouaalam. Best drink ever.",
 };
 
 // The first element of the next 3 arrays needs to stay at the index 0
