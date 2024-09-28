@@ -10,6 +10,14 @@ spec_path = "spec"
 
 # source editing funcs
 
+def replaceTemplate(text: str, actorName: str):
+	editedText = text
+	editedText = editedText.replace('ACTORFILLER', actorName.replace("_", ""))
+	editedText = editedText.replace('ACTOR_FILLER', actorName)
+	editedText = editedText.replace('ACTORUPPER', actorName.upper())
+	editedText = editedText.replace('ACTORLOWER', actorName.lower())
+	return editedText
+
 def fillSource(actor_name: str, file_path: str):
 
 	# add C source
@@ -18,10 +26,7 @@ def fillSource(actor_name: str, file_path: str):
 	
 	with open(file_path + '.c', 'w') as file:
 		file.write(
-			temp.replace('ACTORFILLER', actor_name.replace("_", ""))
-				.replace('ACTOR_FILLER', actor_name)
-				.replace('ACTORUPPER', actor_name.upper())
-				.replace('ACTORLOWER', actor_name.lower())
+			replaceTemplate(temp, actor_name)
 		)
 	
 	# add Header source
@@ -29,7 +34,7 @@ def fillSource(actor_name: str, file_path: str):
 		temp = file.read()
 	
 	with open(file_path + '.h', 'w') as file:
-		file.write(temp.replace('ACTORFILLER', actor_name).replace('ACTORUPPER', actor_name.upper()))
+		file.write(replaceTemplate(temp, actor_name))
 
 
 def addTable(actor_name: str) -> None:
