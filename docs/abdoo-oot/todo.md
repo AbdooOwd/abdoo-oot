@@ -43,6 +43,14 @@
 		Start a timer, then once finished, make guard patrol back and reset `camera->at`.
 	-	Make good Camera Effects *(same as I wanted, but less "junky" and "broken")*.
 
+-	In Lowden village, the village is under control of "bad-guy"'s control.
+	The village look almost abandoned in the night, and almost dead (but still with people)
+	in the day. Kind of like France on Algeria.
+	-	Make a big "surveillance post".
+	-	Add some "barbelet".
+	-	Add some sharp stuff that is supposed to keep
+		the villagers in place.
+
 ## Funny
 
 -	Have a time in the scenario where there's a fake death screen.
