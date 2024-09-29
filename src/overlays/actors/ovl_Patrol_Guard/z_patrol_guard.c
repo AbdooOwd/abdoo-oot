@@ -19,7 +19,7 @@
 #include "z_patrol_guard.h"
 #include "assets/objects/object_joe/gJoeDL.h"
 
-#define FLAGS					(ACTOR_FLAG_0 | ACTOR_FLAG_2| ACTOR_FLAG_4)	// idk what these flags are for
+#define FLAGS					(ACTOR_FLAG_0 | ACTOR_FLAG_2 | ACTOR_FLAG_4)	// idk what these flags are for
 #define JOES_HEIGHT				64.0f	// probably? 6.4m * 10
 #define GUARD_SPEED				2.0f
 #define GUARD_BGM_FADE_DURATION	0x17
