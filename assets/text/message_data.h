@@ -85,6 +85,36 @@ MSG("german")
 MSG("french")
 )
 
+DEFINE_MESSAGE(0x0305, TEXTBOX_TYPE_WOODEN, TEXTBOX_POS_BOTTOM,
+MSG("japanese")
+,
+MSG(
+	"Every villager should stay\n"
+	"in his house until the intruder\n"
+	"has been found."
+	BOX_BREAK
+	"Any villager found outside\n"
+	"of his house will be suspected\n"
+	"to be the intruder's compilce."
+)
+,
+MSG("german")
+,
+MSG("french")
+)
+
+DEFINE_MESSAGE(0x0306, TEXTBOX_TYPE_WOODEN, TEXTBOX_POS_BOTTOM,
+MSG("japanese")
+,
+MSG(
+	"Lowden Village"
+)
+,
+MSG("german")
+,
+MSG("french")
+)
+
 
 
 // Ocarina stuff
@@ -830,6 +860,7 @@ QUICKTEXT_DISABLE
 )
 
 /* end of ocarina stuff */
+
 
 /*
  * The following two messages should be kept last and in this order.
