@@ -4089,6 +4089,14 @@ endseg
 /* ACTORS FOR PYTHON */
 
 beginseg
+	name "ovl_Check_Spot"
+	compress
+	include "$(BUILD_DIR)/src/overlays/actors/ovl_Check_Spot/z_check_spot.o"
+	include "$(BUILD_DIR)/src/overlays/actors/ovl_Check_Spot/ovl_Check_Spot_reloc.o"
+endseg
+
+
+beginseg
 	name "ovl_Patrol_Guard"
 	compress
 	include "$(BUILD_DIR)/src/overlays/actors/ovl_Patrol_Guard/z_patrol_guard.o"
